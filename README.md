@@ -28,7 +28,7 @@ Functionality: [/22]
    *NOT COVERED*
    [/2] Can deal with information in the additional information section when not all of it is of interest/use (e.g. groups.yahoo.com)
   
-   *COVERED* 
+   **COVERED**
    [/2] The TTL is reported and is the shortest TTL from the A record or any CNAMEs leading to that record.  
 
 
