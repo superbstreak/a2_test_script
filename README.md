@@ -1,12 +1,15 @@
 # a2_test_script
 
 How to run:
-------
-Since student's code may fail more often, instead of running 'mocha', I suggest export it to a file.
-Instead of 'mocha' **do 'mocha --reporter spec > report.txt' instead**
+======
+Since student's code may fail more often, I suggest exporting result to a file.
+
+Instead of 'mocha' **do 'mocha --reporter spec > report.txt' instead**.
+
 This will output it to a file with all the stacktraces if their program crashed.
 
 Test Coverage
+======
 Functionality: [/22]
 ------
    **COVERED**
