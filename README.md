@@ -3,7 +3,7 @@
 Test Coverage
 
 Functionality: [/22]
-  
+------
    **COVERED**
    [/2] Basic query to a name server that is authoritative.
    	(e.g. www.cs.ubc.ca to 198.162.35.1)
@@ -31,7 +31,7 @@ Functionality: [/22]
 
 
 Error Handling: [/8]
-
+------
    In this next section there is 1 mark for detecting the error and
    another for properly printing the output
    
@@ -46,13 +46,12 @@ Error Handling: [/8]
 
    *NOT COVERED*
    [/2] Other types of errors (e.g. ca)
-
-
+  
 
 
 
 Tracing: [/9]
-
+------
   *NOT COVERED*
   [/2] Prints query ID, server being queried and FQDN
   
