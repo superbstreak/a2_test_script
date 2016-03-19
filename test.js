@@ -498,9 +498,9 @@ describe('Functionality', function(){
         	var timer = setInterval(function (){
         		var timeDiff = currentTime - lastUpdatedTime;
   				if (currentTime > 11000 || (lastUpdatedTime != -1 && timeDiff > 1000)) {
-  					if (retData) {
-  						traceData = breakDownTrace(retData);
-  					}
+  					// if (retData) {
+  					// 	traceData = breakDownTrace(retData);
+  					// }
   					clearInterval(timer);
   					done();
   				} else {
