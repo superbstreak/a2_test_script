@@ -60,16 +60,16 @@ Error Handling: [/8]
 
 Tracing: [/9]
 ------
-  *NOT COVERED*
+  **COVERED (check trace)**
   [/2] Prints query ID, server being queried and FQDN
   
-  *NOT COVERED*
+  **COVERED (check trace)**
   [/2] Query ID is different for every query during a run
   
-  *NOT COVERED*
+  **COVERED (check trace)**
   [/1] Prints Response ID line, with query ID and whether or not this is an authoritative response
 
-  *NOT COVERED*
+  **COVERED (check trace)**
   [/4] Prints the counts for the Answers, Nameservers, and Additional
   Information fields. Format is as required and includes TTL
 
