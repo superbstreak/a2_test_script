@@ -970,7 +970,7 @@ describe('Tracing', function(){
 	describe('#1 [/2] Prints query ID, server being queried and FQDN', function () {
 		var retData = '';
 		var traceData;
-		var nameServer = '198.162.35.192';
+		var nameServer = '192.112.36.4';
 		var url = 'www.cs.ubc.ca';
 		var trace = '-t';
 		// ========================================================================
@@ -1011,6 +1011,49 @@ describe('Tracing', function(){
         // chai js doc: http://chaijs.com/api/bdd/
         // chai-string api: http://chaijs.com/plugins/chai-string/
 
+        it("[1pts] has the correct labels", function() {
+        	var isValid = true;
+        	expect(traceData).to.not.be.undefined;
+        	expect(traceData.tracing).to.not.be.undefined;
+        	if (traceData && traceData.tracing) {
+				var i;
+				for (i = 0; i < traceData.tracing.length; ++i) {
+					var item = traceData.tracing[i];
+					expect(item).to.not.be.undefined;
+					var qid = item.queryID;
+					var server = item.queryHost;
+					var fqdn = item.queryURL;
+					expect(qid).to.not.be.undefined;
+					expect(server).to.not.be.undefined;
+					expect(fqdn).to.not.be.undefined;
+				}
+			}
+			part_tracing += 1;
+		});
+
+		it("[1pts] has the correct labels and data", function() {
+        	var isValid = true;
+        	if (traceData && traceData.tracing) {
+				var i;
+				for (i = 0; i < traceData.tracing.length; ++i) {
+					var item = traceData.tracing[i];
+					if (item) {
+						var qid = item.queryID;
+						var server = item.queryHost;
+						var fqdn = item.queryURL;
+						if (qid && fqdn && server) {
+							expect(parseInt(qid)).to.be.a('number');
+							expect(parseInt(qid)).to.be.above(0);
+							expect(fqdn).to.be.a('string');
+							expect(fqdn).to.equal(url);
+							expect(server).to.be.a('string');
+						}
+					}
+				}
+			}
+			expect(isValid).to.equal(true);
+			part_tracing += 1;
+		});
 
 
 		// ========================================================================
@@ -1031,7 +1074,7 @@ describe('Tracing', function(){
 	describe('#2 [/2] Query ID is different for every query during a run', function () {
 		var retData = '';
 		var nameServer = '192.112.36.4';
-		var url = 'loop1.csproject.org';
+		var url = 'www.cs.ubc.ca';
 		var trace = '-t';
 		var traceData;
 		// ========================================================================
@@ -1071,7 +1114,23 @@ describe('Tracing', function(){
         // chai js doc: http://chaijs.com/api/bdd/
         // chai-string api: http://chaijs.com/plugins/chai-string/
 
-
+        it("[2pts] query id is different for every query", function() {
+        	var listOfQID = [];
+        	if (traceData && traceData.tracing) {
+				var i;
+				for (i = 0; i < traceData.tracing.length; ++i) {
+					var item = traceData.tracing[i];
+					if (item) {
+						var qid = item.queryID;
+						if (qid) {
+							expect(listOfQID.indexOf(qid)).to.equal(-1);
+							listOfQID.push(qid);
+						}
+					}
+				}
+			}
+			part_tracing += 2;
+		});
 
 
 		// ========================================================================
@@ -1092,7 +1151,7 @@ describe('Tracing', function(){
 	describe('#3 [/1] Prints Response ID line, with query ID and whether or not this is an authoritative response', function () {
 		var retData = '';
 		var nameServer = '192.112.36.4';
-		var url = 'wee.cs.ubc.ca';
+		var url = 'www.cs.ubc.ca';
 		var trace = '-t';
 		var traceData;
 		// ========================================================================
@@ -1132,7 +1191,30 @@ describe('Tracing', function(){
         // chai js doc: http://chaijs.com/api/bdd/
         // chai-string api: http://chaijs.com/plugins/chai-string/
 
-
+		it("[1pts] has the correct labels and data", function() {
+        	expect(traceData).to.not.be.undefined;
+        	expect(traceData.tracing).to.not.be.undefined;
+        	if (traceData && traceData.tracing) {
+				var i;
+				for (i = 0; i < traceData.tracing.length; ++i) {
+					var item = traceData.tracing[i];
+					expect(item).to.not.be.undefined;
+					var qid = item.queryID;
+					var rid = item.responseID;
+					var auth = item.isAuthoritative;
+					expect(qid).to.not.be.undefined;
+					expect(rid).to.not.be.undefined;
+					expect(auth).to.not.be.undefined;
+					expect(parseInt(qid)).to.be.a('number');
+					expect(parseInt(qid)).to.be.above(0);
+					expect(parseInt(rid)).to.be.a('number');
+					expect(parseInt(rid)).to.be.above(0);
+					expect(qid).to.equal(rid);
+					expect(['true', 'false']).to.include(auth);
+				}
+			}
+			part_tracing += 1;
+		});
 
 
 		// ========================================================================
@@ -1150,10 +1232,10 @@ describe('Tracing', function(){
 	});
 
 	// #4
-	describe('#4 [/4] Prints the counts for the Answers, Nameservers, and Additional Information fields. Format is as required and includes TTL', function () {
+	describe('#4 [/4] Prints the counts for the Ans, NS, and Additional Info includes TTL', function () {
 		var retData = '';
 		var nameServer = '192.112.36.4';
-		var url = 'ca';
+		var url = 'www.cs.ubc.ca';
 		var trace = '-t';
 		var traceData;
 		// ========================================================================
@@ -1193,7 +1275,95 @@ describe('Tracing', function(){
         // chai js doc: http://chaijs.com/api/bdd/
         // chai-string api: http://chaijs.com/plugins/chai-string/
 
+        it("[1pts] Prints the counts for the Answers", function() {
+        	expect(traceData).to.not.be.undefined;
+        	expect(traceData.tracing).to.not.be.undefined;
+        	if (traceData && traceData.tracing) {
+				var i;
+				for (i = 0; i < traceData.tracing.length; ++i) {
+					var item = traceData.tracing[i];
+					expect(item).to.not.be.undefined;
+					var ansCount = item.numAnswer;
+					var answers = item.answers;
+					expect(ansCount).to.not.be.undefined;
+					expect(answers).to.not.be.undefined;
 
+					expect(parseInt(ansCount)).to.be.a('number');
+					expect(answers.length).to.equal(parseInt(ansCount));
+				}
+			}
+			part_tracing += 1;
+		});
+
+		it("[1pts] Prints the counts for the Nameservers", function() {
+        	expect(traceData).to.not.be.undefined;
+        	expect(traceData.tracing).to.not.be.undefined;
+        	if (traceData && traceData.tracing) {
+				var i;
+				for (i = 0; i < traceData.tracing.length; ++i) {
+					var item = traceData.tracing[i];
+					expect(item).to.not.be.undefined;
+					var nsCount = item.numNameserver;
+					var nses = item.nameServers;
+					expect(nsCount).to.not.be.undefined;
+					expect(nses).to.not.be.undefined;
+
+					expect(parseInt(nsCount)).to.be.a('number');
+					expect(nses.length).to.equal(parseInt(nsCount));
+				}
+			}
+			part_tracing += 1;
+		});
+
+		it("[1pts] Prints the counts for the Additional Information", function() {
+        	expect(traceData).to.not.be.undefined;
+        	expect(traceData.tracing).to.not.be.undefined;
+        	if (traceData && traceData.tracing) {
+				var i;
+				for (i = 0; i < traceData.tracing.length; ++i) {
+					var item = traceData.tracing[i];
+					expect(item).to.not.be.undefined;
+					var addCount = item.numAdditional;
+					var additionls = item.additionals;
+					expect(addCount).to.not.be.undefined;
+					expect(additionls).to.not.be.undefined;
+
+					expect(parseInt(addCount)).to.be.a('number');
+					expect(additionls.length).to.equal(parseInt(addCount));
+				}
+			}
+			part_tracing += 1;
+		});
+
+		it("[1pts] Format is as required and includes TTL", function() {
+        	expect(traceData).to.not.be.undefined;
+        	expect(traceData.tracing).to.not.be.undefined;
+        	if (traceData && traceData.tracing) {
+				var i;
+				for (i = 0; i < traceData.tracing.length; ++i) {
+					var item = traceData.tracing[i];
+					expect(item).to.not.be.undefined;
+					var answers = item.answers;
+					expect(answers).to.not.be.undefined;
+					var nameServers = item.nameServers;
+					expect(nameServers).to.not.be.undefined;
+					var additionals = item.additionals;
+					expect(additionals).to.not.be.undefined;
+					var tracing = [].concat.apply([], [answers, nameServers, additionals]);
+					expect(tracing).to.not.be.undefined;
+					tracing.forEach(function(a) {
+						expect(a).to.not.be.undefined;
+						expect(a.url).to.not.be.undefined;
+						expect(a.ttl).to.not.be.undefined;
+						expect(a.typer).to.not.be.undefined;
+						expect(a.ip).to.not.be.undefined;
+						expect(parseInt(a.ttl)).to.be.a('number');
+						expect(parseInt(a.ttl)).to.be.above(0);
+					});
+				}
+			}
+			part_tracing += 1;
+		});
 
 		// ========================================================================
 		// runs after block test is done, dont touch
@@ -1212,7 +1382,7 @@ describe('Tracing', function(){
 	after(function () {
 		console.log();
 		console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>');
-		console.log('Error Handling ['+part_tracing+'/9]');
+		console.log('Tracing ['+part_tracing+'/9]');
 		console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>');
 		console.log();
 	});
@@ -1238,7 +1408,7 @@ describe('Tracing', function(){
 //			additionals: []
 //		}]
 //
-// nameServers and additionals contains a list of:
+// answers, nameServers and additionals contains a list of:
 // 		{
 //			url: 'fs1.ugrad.cs.ubc.ca',
 //			ttl: '2142',
