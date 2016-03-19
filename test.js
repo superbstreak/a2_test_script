@@ -1492,189 +1492,193 @@ describe('Tracing', function(){
 function breakDownTrace(data) {
 	var result = [];
 	var finalAnswer;
-	if (data) {
-		var eachTraceBlock = data.split('\n\n');
-		if (eachTraceBlock) {
-			var i;
-			for (i = 0; i < eachTraceBlock.length; ++i) {
-				var rawQuery = eachTraceBlock[i];
-				if (rawQuery && rawQuery.length > 0) {
-					var aQuery = {
-						queryID: '0',
-						queryURL: '',
-						queryHost: '',
-						responseID: '0',
-						isAuthoritative: 'false',
-						numAnswer: '0',
-						answers: [],
-						numNameserver: '0',
-						nameServers: [],
-						numAdditional: '0',
-						additionals: []
-					};
-					var splitByLine = rawQuery.split('\r\n');
-					
-					if (splitByLine && splitByLine.length > 0) {
-						var j;
-						if (splitByLine && splitByLine.length > 0) {
-							var offset = 0;
-							var hasAnswer = false;
-							var hasNameserver = false;
+	try {
+		if (data) {
+				var eachTraceBlock = data.split('\n\n');
+				if (eachTraceBlock) {
+					var i;
+					for (i = 0; i < eachTraceBlock.length; ++i) {
+						var rawQuery = eachTraceBlock[i];
+						if (rawQuery && rawQuery.length > 0) {
+							var aQuery = {
+								queryID: '0',
+								queryURL: '',
+								queryHost: '',
+								responseID: '0',
+								isAuthoritative: 'false',
+								numAnswer: '0',
+								answers: [],
+								numNameserver: '0',
+								nameServers: [],
+								numAdditional: '0',
+								additionals: []
+							};
+							var splitByLine = rawQuery.split('\r\n');
+							
+							if (splitByLine && splitByLine.length > 0) {
+								var j;
+								if (splitByLine && splitByLine.length > 0) {
+									var offset = 0;
+									var hasAnswer = false;
+									var hasNameserver = false;
 
-							// get query line
-							var rawQueryLine = splitByLine[offset];
-							if (rawQueryLine) {
-								var queryLine = rawQueryLine.trim().split(/\s+/);
-								aQuery.queryID = queryLine[2];
-								aQuery.queryURL = queryLine[3];
-								aQuery.queryHost = queryLine[5];
-								offset += 1;
-							}							
+									// get query line
+									var rawQueryLine = splitByLine[offset];
+									if (rawQueryLine) {
+										var queryLine = rawQueryLine.trim().split(/\s+/);
+										aQuery.queryID = queryLine[2];
+										aQuery.queryURL = queryLine[3];
+										aQuery.queryHost = queryLine[5];
+										offset += 1;
+									}							
 
-							// get response line
-							var rawResponseLine = splitByLine[offset];
-							if (rawResponseLine) {
-								var responseLine = rawResponseLine.trim().split(/\s+/);
-								aQuery.responseID = responseLine[2];
-								aQuery.isAuthoritative = responseLine[5];
-								offset += 1;
-							}
+									// get response line
+									var rawResponseLine = splitByLine[offset];
+									if (rawResponseLine) {
+										var responseLine = rawResponseLine.trim().split(/\s+/);
+										aQuery.responseID = responseLine[2];
+										aQuery.isAuthoritative = responseLine[5];
+										offset += 1;
+									}
 
 
-							// get answers
-							var rawAnswerLine = splitByLine[offset];
-							if (rawAnswerLine) {
-								var answerLine = rawAnswerLine.trim().split(/\s+/);
-								aQuery.numAnswer = answerLine[1].replace(/[^0-9]/gi, '');
-								offset += 1;
-							}
-							var answerLength = parseInt(aQuery.numAnswer);
-							var a;
-							if (answerLength && answerLength > 0) {
-								var rawAnswerLineSingle = splitByLine[offset];
-								if (rawAnswerLineSingle) {
-									var rawAnswers = rawAnswerLineSingle.split('\n');
-									offset += 1;
-
+									// get answers
+									var rawAnswerLine = splitByLine[offset];
+									if (rawAnswerLine) {
+										var answerLine = rawAnswerLine.trim().split(/\s+/);
+										aQuery.numAnswer = answerLine[1].replace(/[^0-9]/gi, '');
+										offset += 1;
+									}
 									var answerLength = parseInt(aQuery.numAnswer);
+									var a;
 									if (answerLength && answerLength > 0) {
-										var a;
-										for (a = 0; a < rawAnswers.length; ++a) {
-											var answer = {
-												url: '',
-												ttl: '0',
-												typer: '',
-												ip: ''
-											};
-											var item = rawAnswers[a];
-											if (item) {
-												if (item.indexOf('Nameservers (') >= 0) { 
-													aQuery.numNameserver = item.replace(/[^0-9]/gi, '');
-													hasAnswer = true;
-												} else {
-													var splitAns = item.trim().split(/\s+/);
-													answer.url = splitAns[0];
-													answer.ttl = splitAns[1];
-													answer.typer = splitAns[2];
-													answer.ip = splitAns[3];
-													aQuery.answers.push(answer);
-												}
-											}
-										} 
-									}
-								}
-							}
+										var rawAnswerLineSingle = splitByLine[offset];
+										if (rawAnswerLineSingle) {
+											var rawAnswers = rawAnswerLineSingle.split('\n');
+											offset += 1;
 
-							// get name servers
-							if(!hasAnswer) {
-								var rawNSLine = splitByLine[offset];
-								if (rawNSLine) {
-									var nsLine = rawNSLine.trim().split(/\s+/);
-									aQuery.numNameserver = nsLine[1].replace(/[^0-9]/gi, '');
-									offset += 1;
-								}
-							}
-							var nslength = parseInt(aQuery.numNameserver);
-							var ns;
-							if (nslength && nslength > 0) {
-								var rawNSdata = splitByLine[offset];
-								offset += 1;
-								if (rawNSdata) {
-									var rawNS = rawNSdata.split('\n');
-									for (ns = 0; ns < rawNS.length; ++ns) {
-										var nsitem = rawNS[ns];
-										var namserver = {
-											url: '',
-											ttl: '0',
-											typer: '',
-											ip: ''
-										};
-										if (nsitem) {
-											if (nsitem.indexOf('Additional Information') >= 0) { 
-												aQuery.numAdditional = nsitem.replace(/[^0-9]/gi, '');
-												hasNameserver = true;
-											} else {
-												var splitNS = nsitem.trim().split(/\s+/);
-												namserver.url = splitNS[0];
-												namserver.ttl = splitNS[1];
-												namserver.typer = splitNS[2];
-												namserver.ip = splitNS[3];
-												aQuery.nameServers.push(namserver);
-											}
-										}
-									} 
-								}
-							}
-
-
-							// get additional
-							if (!hasNameserver) {
-								var rawADDLine = splitByLine[offset];
-								offset += 1;
-								if (rawADDLine) {
-									var addtionalLine = rawADDLine.trim().split(/\s+/);
-									aQuery.numAdditional = addtionalLine[1].replace(/[^0-9]/gi, '');
-								}
-							}
-							var additionalLen = parseInt(aQuery.numAdditional);
-							var add;
-							if (additionalLen && additionalLen > 0) {
-								var rawAddORG = splitByLine[offset];
-								offset += 1;
-								if (rawAddORG) {
-									var rawAdd =  rawAddORG.split('\n');
-									if (rawAdd && rawAdd.length > 0) {
-										for (add = 0; add < rawAdd.length; ++add) {
-											var additional = {
-												url: '',
-												ttl: '0',
-												typer: '',
-												ip: ''
-											};
-											var item = rawAdd[add];
-											if (item) {
-												if (add < aQuery.numAdditional) {
-													var splitAdd = item.trim().split(/\s+/);
-													additional.url = splitAdd[0];
-													additional.ttl = splitAdd[1];
-													additional.typer = splitAdd[2];
-													additional.ip = splitAdd[3];
-													aQuery.additionals.push(additional);
-												} else {
-													finalAnswer = item;
-												}
+											var answerLength = parseInt(aQuery.numAnswer);
+											if (answerLength && answerLength > 0) {
+												var a;
+												for (a = 0; a < rawAnswers.length; ++a) {
+													var answer = {
+														url: '',
+														ttl: '0',
+														typer: '',
+														ip: ''
+													};
+													var item = rawAnswers[a];
+													if (item) {
+														if (item.indexOf('Nameservers (') >= 0) { 
+															aQuery.numNameserver = item.replace(/[^0-9]/gi, '');
+															hasAnswer = true;
+														} else {
+															var splitAns = item.trim().split(/\s+/);
+															answer.url = splitAns[0];
+															answer.ttl = splitAns[1];
+															answer.typer = splitAns[2];
+															answer.ip = splitAns[3];
+															aQuery.answers.push(answer);
+														}
+													}
+												} 
 											}
 										}
 									}
+
+									// get name servers
+									if(!hasAnswer) {
+										var rawNSLine = splitByLine[offset];
+										if (rawNSLine) {
+											var nsLine = rawNSLine.trim().split(/\s+/);
+											aQuery.numNameserver = nsLine[1].replace(/[^0-9]/gi, '');
+											offset += 1;
+										}
+									}
+									var nslength = parseInt(aQuery.numNameserver);
+									var ns;
+									if (nslength && nslength > 0) {
+										var rawNSdata = splitByLine[offset];
+										offset += 1;
+										if (rawNSdata) {
+											var rawNS = rawNSdata.split('\n');
+											for (ns = 0; ns < rawNS.length; ++ns) {
+												var nsitem = rawNS[ns];
+												var namserver = {
+													url: '',
+													ttl: '0',
+													typer: '',
+													ip: ''
+												};
+												if (nsitem) {
+													if (nsitem.indexOf('Additional Information') >= 0) { 
+														aQuery.numAdditional = nsitem.replace(/[^0-9]/gi, '');
+														hasNameserver = true;
+													} else {
+														var splitNS = nsitem.trim().split(/\s+/);
+														namserver.url = splitNS[0];
+														namserver.ttl = splitNS[1];
+														namserver.typer = splitNS[2];
+														namserver.ip = splitNS[3];
+														aQuery.nameServers.push(namserver);
+													}
+												}
+											} 
+										}
+									}
+
+
+									// get additional
+									if (!hasNameserver) {
+										var rawADDLine = splitByLine[offset];
+										offset += 1;
+										if (rawADDLine) {
+											var addtionalLine = rawADDLine.trim().split(/\s+/);
+											aQuery.numAdditional = addtionalLine[1].replace(/[^0-9]/gi, '');
+										}
+									}
+									var additionalLen = parseInt(aQuery.numAdditional);
+									var add;
+									if (additionalLen && additionalLen > 0) {
+										var rawAddORG = splitByLine[offset];
+										offset += 1;
+										if (rawAddORG) {
+											var rawAdd =  rawAddORG.split('\n');
+											if (rawAdd && rawAdd.length > 0) {
+												for (add = 0; add < rawAdd.length; ++add) {
+													var additional = {
+														url: '',
+														ttl: '0',
+														typer: '',
+														ip: ''
+													};
+													var item = rawAdd[add];
+													if (item) {
+														if (add < aQuery.numAdditional) {
+															var splitAdd = item.trim().split(/\s+/);
+															additional.url = splitAdd[0];
+															additional.ttl = splitAdd[1];
+															additional.typer = splitAdd[2];
+															additional.ip = splitAdd[3];
+															aQuery.additionals.push(additional);
+														} else {
+															finalAnswer = item;
+														}
+													}
+												}
+											}
+										}
+									}
 								}
 							}
+							result.push(aQuery);
 						}
 					}
-					result.push(aQuery);
 				}
+				// console.log(result);
 			}
-		}
-		// console.log(result);
+	} catch (err) {
+		console.log('FAIL TO PARSE, MANUALLY CHECK');
 	}
 	return {tracing: result, answer: finalAnswer};
 }
