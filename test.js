@@ -285,6 +285,7 @@ describe('Functionality', function(){
 		var nameServer = '192.112.36.4';
 		var url = 'www.stanford.edu';
 		var trace = '';
+		var splitData;
 		// ========================================================================
 		// access child process, mess but works :]
         before(function (done) {
@@ -293,6 +294,9 @@ describe('Functionality', function(){
         	var timer = setInterval(function (){
         		var timeDiff = currentTime - lastUpdatedTime;
   				if (currentTime > 11000 || (lastUpdatedTime != -1 && timeDiff > 1000)) {
+  					if (retData) {
+  						splitData = retData.trim().split(/\s+/);
+  					}
   					clearInterval(timer);
   					done();
   				} else {
@@ -319,13 +323,28 @@ describe('Functionality', function(){
         // chai js doc: http://chaijs.com/api/bdd/
         // chai-string api: http://chaijs.com/plugins/chai-string/
 
+		var len = 0;
+        it("[0pts] return shouldhave 3 items", function() {
+        	len = splitData.length;
+			expect(splitData).to.have.lengthOf(3);
+		});
+
 		it("[1pts] return should have the original url", function() {
-			expect(retData).to.contain(url);
+			expect(splitData[0]).to.equal(url);
 			part_function += 1;
 		});
 
+		it("[0pts] return should have the TTL field", function() {
+			expect(parseInt(splitData[1])).to.be.a('number');
+		});
+
+		it("[0pts] return should have the TTL > 0", function() {
+			var ttl = parseInt(splitData[1]);
+			expect(ttl).to.be.above(0);
+		});
+
 		it("[2pts] return should have the expected ip address", function() {
-			retData.should.endWith('52.11.42.24\r\n');
+			expect(['52.27.47.89', '54.186.193.26', '52.11.42.24']).to.include(splitData[2]);
 			part_function += 2;
 		});
 
@@ -353,6 +372,7 @@ describe('Functionality', function(){
 		var nameServer = '192.112.36.4';
 		var url = 'finance.google.ca';
 		var trace = '';
+		var splitData;
 		// ========================================================================
 		// access child process, mess but works :]
         before(function (done) {
@@ -361,6 +381,9 @@ describe('Functionality', function(){
         	var timer = setInterval(function (){
         		var timeDiff = currentTime - lastUpdatedTime;
   				if (currentTime > 11000 || (lastUpdatedTime != -1 && timeDiff > 1000)) {
+  					if (retData) {
+  						splitData = retData.trim().split(/\s+/);
+  					}
   					clearInterval(timer);
   					done();
   				} else {
@@ -387,14 +410,37 @@ describe('Functionality', function(){
         // chai js doc: http://chaijs.com/api/bdd/
         // chai-string api: http://chaijs.com/plugins/chai-string/
 
-		it("[1pts] return should have the original url", function() {
-			expect(retData).to.contain(url);
-			part_function += 1;
+		var len = 0;
+        it("[0pts] return shouldhave 3 items", function() {
+        	len = splitData.length;
+			expect(splitData).to.have.lengthOf(3);
 		});
 
-		it("[2pts] return should have the expected ip address", function() {
-			retData.should.endWith('52.11.42.24\r\n');
-			part_function += 2;
+		it("[0pts] return should have the original url", function() {
+			expect(splitData[0]).to.equal(url);
+		});
+
+		it("[0pts] return should have the TTL field", function() {
+			expect(parseInt(splitData[1])).to.be.a('number');
+		});
+
+		it("[0pts] return should have the TTL > 0", function() {
+			var ttl = parseInt(splitData[1]);
+			expect(ttl).to.be.above(0);
+		});
+
+		it("[3pts] return should have the expected ip address", function() {
+			expect([
+				'216.58.193.110', 
+				'216.58.193.78', 
+				'216.58.193.110', 
+				'216.58.216.174',
+				'216.58.216.142',
+				'172.217.2.110', 
+				'172.217.3.110', 
+				'172.217.0.142', 
+				]).to.include(splitData[2]);
+			part_function += 3;
 		});
 
 
@@ -421,6 +467,7 @@ describe('Functionality', function(){
 		var nameServer = '192.112.36.4';
 		var url = 'groups.yahoo.com';
 		var trace = '';
+		var splitData;
 		// ========================================================================
 		// access child process, mess but works :]
         before(function (done) {
@@ -429,6 +476,9 @@ describe('Functionality', function(){
         	var timer = setInterval(function (){
         		var timeDiff = currentTime - lastUpdatedTime;
   				if (currentTime > 11000 || (lastUpdatedTime != -1 && timeDiff > 1000)) {
+  					if (retData) {
+  						splitData = retData.trim().split(/\s+/);
+  					}
   					clearInterval(timer);
   					done();
   				} else {
@@ -455,14 +505,32 @@ describe('Functionality', function(){
         // chai js doc: http://chaijs.com/api/bdd/
         // chai-string api: http://chaijs.com/plugins/chai-string/
 
-		it("[0.5pts] return should have the original url", function() {
-			expect(retData).to.contain(url);
-			part_function += 0.5;
+		var len = 0;
+        it("[0pts] return shouldhave 3 items", function() {
+        	len = splitData.length;
+			expect(splitData).to.have.lengthOf(3);
 		});
 
-		it("[1.5pts] return should have the expected ip address", function() {
-			retData.should.endWith('208.71.44.30\r\n');
-			part_function += 1.5;
+		it("[0pts] return should have the original url", function() {
+			expect(splitData[0]).to.equal(url);
+			part_function += 1;
+		});
+
+		it("[0pts] return should have the TTL field", function() {
+			expect(parseInt(splitData[1])).to.be.a('number');
+		});
+
+		it("[0pts] return should have the TTL > 0", function() {
+			var ttl = parseInt(splitData[1]);
+			expect(ttl).to.be.above(0);
+		});
+
+		it("[2pts] return should have the expected ip address", function() {
+			expect([
+				'208.71.44.30',
+				'208.71.44.31'
+				]).to.include(splitData[2]);
+			part_function += 1;
 		});
 
 
