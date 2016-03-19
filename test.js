@@ -556,6 +556,340 @@ describe('Functionality', function(){
 	});
 });
 
+describe('Error Handling', function(){
+	this.timeout(60000);
+
+	// #1
+	describe('#1 [/2] Timeout - nameserver doesnt respond', function () {
+		var retData = '';
+		var splitData;
+		var nameServer = '198.162.35.192';
+		var url = 'www.cs.ubc.ca';
+		var trace = '';
+		// ========================================================================
+		// access child process, mess but works :]
+        before(function (done) {
+        	var lastUpdatedTime = -1;
+        	var currentTime = 0;
+        	var timer = setInterval(function (){
+        		var timeDiff = currentTime - lastUpdatedTime;
+  				if (currentTime > 11000 || (lastUpdatedTime != -1 && timeDiff > 1000)) {
+  					// do your preprocessing here
+  					if (retData) {
+  						splitData = retData.trim().split(/\s+/);
+  					}
+  					clearInterval(timer);
+  					done();
+  				} else {
+  					currentTime += 1000;
+  				}
+			}, 1000);
+            var child = require('child_process').spawn('java', ['-jar', 'DNSlookup.jar', nameServer, url, trace]);
+			child.stdout.on('data', function(data) {
+				if (data && data.toString() != 'undefined') {
+					retData += data.toString(); 
+		    		lastUpdatedTime = currentTime;
+				}
+			});
+			child.stderr.on("data", function (data) {
+		   		clearInterval(timer);
+		   		console.log('Error occurred '+data.toString());
+		   		done();
+			});
+	    });
+
+        // ========================================================================
+        // write your test here 
+        // mocha js doc: https://mochajs.org/
+        // chai js doc: http://chaijs.com/api/bdd/
+        // chai-string api: http://chaijs.com/plugins/chai-string/
+
+        var len = 0;
+        it("[0pts] return shouldhave 3 items", function() {
+        	len = splitData.length;
+			expect(splitData).to.have.lengthOf(3);
+		});
+
+		it("[0pts] return should have the original url", function() {
+			expect(splitData[0]).to.equal(url);
+		});
+
+		it("[1pts] return should have the TTL field", function() {
+			expect(splitData[1]).to.equal('-2');
+			part_errhandle += 1;
+		});
+
+		it("[1pts] return should have the expected ip address", function() {
+			expect(splitData[2]).to.equal('0.0.0.0');
+			part_errhandle += 1;
+		});
+
+		// ========================================================================
+		// runs after block test is done, dont touch
+		after(function() {
+			// console.log();
+			// console.log('---------------------------------------------------------------------------');
+			// console.log();
+			// console.log('Actual Return: ');
+			// console.log(retData);
+		 	// console.log();
+		 	// console.log('===========================================================================');
+		 	// console.log();
+		});
+	});
+
+	// #2
+	describe('#2 [/2] Too many queries', function () {
+		var retData = '';
+		var nameServer = '192.112.36.4';
+		var url = 'loop1.csproject.org';
+		var trace = '';
+		var splitData;
+		// ========================================================================
+		// access child process, mess but works :]
+        before(function (done) {
+        	var lastUpdatedTime = -1;
+        	var currentTime = 0;
+        	var timer = setInterval(function (){
+        		var timeDiff = currentTime - lastUpdatedTime;
+  				if (currentTime > 11000 || (lastUpdatedTime != -1 && timeDiff > 1000)) {
+  					if (retData) {
+  						splitData = retData.trim().split(/\s+/);
+  					}
+  					clearInterval(timer);
+  					done();
+  				} else {
+  					currentTime += 1000;
+  				}
+			}, 1000);
+            var child = require('child_process').spawn('java', ['-jar', 'DNSlookup.jar', nameServer, url, trace]);
+			child.stdout.on('data', function(data) {
+				if (data && data.toString() != 'undefined') {
+					retData += data.toString(); 
+					lastUpdatedTime = currentTime;
+				}
+			});
+			child.stderr.on("data", function (data) {
+		   		clearInterval(timer);
+		   		console.log('Error occurred '+data.toString());
+		   		done();
+			});
+	    });
+
+        // ========================================================================
+        // write your test here 
+        // mocha js doc: https://mochajs.org/
+        // chai js doc: http://chaijs.com/api/bdd/
+        // chai-string api: http://chaijs.com/plugins/chai-string/
+
+		var len = 0;
+		it("[0pts] return shouldhave 3 items", function() {
+        	len = splitData.length;
+			expect(splitData).to.have.lengthOf(3);
+		});
+
+		it("[1pts] return should have the original url", function() {
+			expect(splitData[0]).to.equal(url);
+		});
+
+		it("[1pts] return should have the TTL field", function() {
+			expect(splitData[1]).to.equal('-3');
+			part_errhandle += 1;
+		});
+
+		it("[1pts] return should have the expected ip address", function() {
+			expect(splitData[2]).to.equal('0.0.0.0');
+			part_errhandle += 1;
+		});
+
+
+		// ========================================================================
+		// runs after block test is done, dont touch
+		after(function() {
+			// console.log();
+			// console.log('---------------------------------------------------------------------------');
+			// console.log();
+			// console.log('Actual Return: ');
+			// console.log(retData);
+		 	// console.log();
+		 	// console.log('===========================================================================');
+		 	// console.log();
+		});
+	});
+
+	// #3
+	describe('#3  [/2] Name does not resolve reports -1 for the TTL', function () {
+		var retData = '';
+		var nameServer = '192.112.36.4';
+		var url = 'wee.cs.ubc.ca';
+		var trace = '';
+		var splitData;
+		// ========================================================================
+		// access child process, mess but works :]
+        before(function (done) {
+        	var lastUpdatedTime = -1;
+        	var currentTime = 0;
+        	var timer = setInterval(function (){
+        		var timeDiff = currentTime - lastUpdatedTime;
+  				if (currentTime > 11000 || (lastUpdatedTime != -1 && timeDiff > 1000)) {
+  					if (retData) {
+  						splitData = retData.trim().split(/\s+/);
+  					}
+  					clearInterval(timer);
+  					done();
+  				} else {
+  					currentTime += 1000;
+  				}
+			}, 1000);
+            var child = require('child_process').spawn('java', ['-jar', 'DNSlookup.jar', nameServer, url, trace]);
+			child.stdout.on('data', function(data) {
+				if (data && data.toString() != 'undefined') {
+					retData += data.toString(); 
+					lastUpdatedTime = currentTime;
+				}
+			});
+			child.stderr.on("data", function (data) {
+		   		clearInterval(timer);
+		   		console.log('Error occurred '+data.toString());
+		   		done();
+			});
+	    });
+
+        // ========================================================================
+        // write your test here 
+        // mocha js doc: https://mochajs.org/
+        // chai js doc: http://chaijs.com/api/bdd/
+        // chai-string api: http://chaijs.com/plugins/chai-string/
+
+		var len = 0;
+		it("[0pts] return shouldhave 3 items", function() {
+        	len = splitData.length;
+			expect(splitData).to.have.lengthOf(3);
+		});
+
+		it("[1pts] return should have the original url", function() {
+			expect(splitData[0]).to.equal(url);
+			
+		});
+
+		it("[0pts] return should have the TTL field", function() {
+			expect(splitData[1]).to.equal('-1');
+			part_errhandle += 1;
+		});
+
+		it("[1pts] return should have the expected ip address", function() {
+			expect(splitData[2]).to.equal('0.0.0.0');
+			part_errhandle += 1;
+		});
+
+
+
+		// ========================================================================
+		// runs after block test is done, dont touch
+		after(function() {
+			// console.log();
+			// console.log('---------------------------------------------------------------------------');
+			// console.log();
+			// console.log('Actual Return: ');
+			// console.log(retData);
+		 	// console.log();
+		 	// console.log('===========================================================================');
+		 	// console.log();
+		});
+	});
+
+	// #4
+	describe('#4 [/2] Other types of errors', function () {
+		var retData = '';
+		var nameServer = '192.112.36.4';
+		var url = 'ca';
+		var trace = '';
+		var splitData;
+		// ========================================================================
+		// access child process, mess but works :]
+        before(function (done) {
+        	var lastUpdatedTime = -1;
+        	var currentTime = 0;
+        	var timer = setInterval(function (){
+        		var timeDiff = currentTime - lastUpdatedTime;
+  				if (currentTime > 11000 || (lastUpdatedTime != -1 && timeDiff > 1000)) {
+  					if (retData) {
+  						splitData = retData.trim().split(/\s+/);
+  					}
+  					clearInterval(timer);
+  					done();
+  				} else {
+  					currentTime += 1000;
+  				}
+			}, 1000);
+            var child = require('child_process').spawn('java', ['-jar', 'DNSlookup.jar', nameServer, url, trace]);
+			child.stdout.on('data', function(data) {
+				if (data && data.toString() != 'undefined') {
+					retData += data.toString(); 
+					lastUpdatedTime = currentTime;
+				}
+			});
+			child.stderr.on("data", function (data) {
+		   		clearInterval(timer);
+		   		console.log('Error occurred '+data.toString());
+		   		done();
+			});
+	    });
+
+        // ========================================================================
+        // write your test here 
+        // mocha js doc: https://mochajs.org/
+        // chai js doc: http://chaijs.com/api/bdd/
+        // chai-string api: http://chaijs.com/plugins/chai-string/
+
+        var len = 0;
+		it("[0pts] return shouldhave 3 items", function() {
+        	len = splitData.length;
+			expect(splitData).to.have.lengthOf(3);
+		});
+
+		it("[1pts] return should have the original url", function() {
+			expect(splitData[0]).to.equal(url);
+			
+		});
+
+		it("[0pts] return should have the TTL field", function() {
+			expect(splitData[1]).to.equal('-1');
+			part_errhandle += 1;
+		});
+
+		it("[1pts] return should have the expected ip address", function() {
+			expect(splitData[2]).to.equal('0.0.0.0');
+			part_errhandle += 1;
+		});
+
+
+
+		// ========================================================================
+		// runs after block test is done, dont touch
+		after(function() {
+			// console.log();
+			// console.log('---------------------------------------------------------------------------');
+			// console.log();
+			// console.log('Actual Return: ');
+			// console.log(retData);
+		 	// console.log();
+		 	// console.log('===========================================================================');
+		 	// console.log();
+		});
+	});
+	
+	after(function () {
+		console.log();
+		console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>');
+		console.log('Error Handling ['+part_errhandle+'/8]');
+		console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>');
+		console.log();
+	});
+});
+
+
+
 // under dev
 // if you use -t and need the full data, call this function
 function breakDownTrace(data) {
