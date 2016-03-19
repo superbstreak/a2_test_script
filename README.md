@@ -22,13 +22,13 @@ Functionality: [/22]
    **COVERED**
    [/5] A basic type query that results in a CNAME and the need to restart the search for the alias. (e.g. prep.ai.mit.edu)
 
-   *NOT COVERED*
+  **COVERED** 
    [/3] A query that returns a name server to use where the name server's address isn't provided. (e.g. www.stanford.edu)
 
-   *NOT COVERED*
+   **COVERED** 
    [/3] A complicated lookup series that potentially involves multiple cnames and DNS server name lookups (finance.google.ca)
 
-   *NOT COVERED*
+  **COVERED** 
    [/2] Can deal with information in the additional information section when not all of it is of interest/use (e.g. groups.yahoo.com)
   
    **COVERED**
