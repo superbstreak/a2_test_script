@@ -7,7 +7,7 @@
 // remember to redefine the nameServer, url and trace field before each block test
 //
 // make sure the DNSlooup.jar file is in the same location as the script
-// to run, simply travers to the test folder and type 'mocha'
+// to run, simply travers to the test folder and type 'mocha --reporter spec > report.txt'
 
 "use strict";
 
@@ -944,8 +944,8 @@ describe('Error Handling', function(){
 	// #4
 	describe('#4 [/2] Other types of errors', function () {
 		var retData = '';
-		var nameServer = '192.112.36.4';
-		var url = 'ca';
+		var nameServer = 'ca';
+		var url = 'www.google.com';
 		var trace = '';
 		var splitData;
 		// ========================================================================
@@ -997,7 +997,7 @@ describe('Error Handling', function(){
 		});
 
 		it("[0pts] return should have the TTL field", function() {
-			expect(splitData[1]).to.equal('-1');
+			expect(splitData[1]).to.equal('-4');
 			part_errhandle += 1;
 		});
 
