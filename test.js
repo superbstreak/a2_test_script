@@ -487,7 +487,7 @@ describe('Functionality', function(){
 	describe('#7 [2pt] the TTL reported is the shortest', function () {
 		var retData = '';
 		var nameServer = '192.112.36.4';
-		var url = 'groups.yahoo.com';
+		var url = 'www.cs.ubc.ca';
 		var trace = '-t';
 		var traceData;
 		// ========================================================================
@@ -498,17 +498,17 @@ describe('Functionality', function(){
         	var timer = setInterval(function (){
         		var timeDiff = currentTime - lastUpdatedTime;
   				if (currentTime > 11000 || (lastUpdatedTime != -1 && timeDiff > 1000)) {
-  					// if (retData) {
-  					// 	traceData = breakDownTrace(retData);
-  					// }
+  					if (retData) {
+  						traceData = breakDownTrace(retData);
+  					}
   					clearInterval(timer);
   					done();
   				} else {
   					currentTime += 1000;
   				}
-			}, 1000);
-            var child = require('child_process').spawn('java', ['-jar', 'DNSlookup.jar', nameServer, url, trace]);
-			child.stdout.on('data', function(data) {
+			}, 1000);   var child = require('child_process').spawn('java', ['-jar', 'DNSlookup.jar', nameServer, url, trace]);
+		
+         	child.stdout.on('data', function(data) {
 				if (data && data.toString() != 'undefined') {
 					retData += data.toString(); 
 					lastUpdatedTime = currentTime;
@@ -527,11 +527,86 @@ describe('Functionality', function(){
         // chai js doc: http://chaijs.com/api/bdd/
         // chai-string api: http://chaijs.com/plugins/chai-string/
 
-		it("[0.5pts] return should have the original url", function() {
-			expect(url).to.contain(url);
-			part_function += 0.5;
+        it("[?pts] shortest TTL should be used every step of the way??? ", function() {
+        	var isValid = true;
+        	if (traceData && traceData.tracing) {
+				var i;
+				var smallestTTL = 9999999;
+				var currentSmallest = [];
+				for (i = 0; i < traceData.tracing.length; ++i) {
+					var item = traceData.tracing[i];
+					if (item) {
+						if (i > 0) {
+							if (item.queryHost && currentSmallest) {
+								var usingShorestTTL = (currentSmallest.indexOf(item.queryHost) > -1);
+								if (!usingShorestTTL) {
+									isValid = false;
+									break;
+						  		}
+						  		smallestTTL = 999999;
+						  		currentSmallest = [];
+						  	}
+						}
+						var trace = [];
+						var ans = item.answers;
+						var add = item.additionals;
+						if (ans) {
+						  	trace = trace.concat(ans);
+						}
+						if (add) {
+						  	trace = trace.concat(add);
+						}
+						if (trace) {
+						  	trace.forEach(function(a) {
+								if (a && a.ip && a.ttl) {
+									if (a.ttl == smallestTTL) {
+										currentSmallest.push(a.ip);
+									} else if (parseInt(a.ttl) < smallestTTL) {
+										currentSmallest = [];
+										smallestTTL = parseInt(a.ttl);
+										currentSmallest.push(a.ip);
+									}
+								}
+							});
+						}
+					}
+				}
+			}
+			expect(isValid).to.equal(true);
+			// part_function += 1;
 		});
-
+		
+		it("[2pts] shortest TTL should be used for the final answer", function() {
+        	var isValid = true;
+        	if (traceData && traceData.tracing && traceData.finalAnswer) {
+				var i;
+				var smallestTTL = 9999999;
+				var currentSmallest = [];
+				var ans = traceData.tracing[traceData.tracing.length].answers;
+				if (ans) {
+					ans.forEach(function(a) {
+						if (a && a.ip && a.ttl) {
+							if (a.ttl == smallestTTL) {
+								currentSmallest.push(a.ip);
+							} else if (parseInt(a.ttl) < smallestTTL) {
+								currentSmallest = [];
+								smallestTTL = parseInt(a.ttl);
+								currentSmallest.push(a.ip);
+							}
+						}
+					});
+				}
+				var finalsplit = traceData.finalAnswer.split('/\s+/')
+				if (finalsplit && finalsplit.length == 3 && currentSmallest) {
+					var usingShorestTTL = (currentSmallest.indexOf(finalsplit[2]) > -1);
+					if (!usingShorestTTL) {
+						isValid = false;
+					}
+				}
+			}
+			expect(isValid).to.equal(true);
+			part_function += 2;
+		});
 
 		// ========================================================================
 		// runs after block test is done, dont touch
@@ -688,7 +763,7 @@ describe('Error Handling', function(){
 			expect(splitData).to.have.lengthOf(3);
 		});
 
-		it("[1pts] return should have the original url", function() {
+		it("[0pts] return should have the original url", function() {
 			expect(splitData[0]).to.equal(url);
 		});
 
@@ -1144,10 +1219,41 @@ describe('Tracing', function(){
 });
 
 
-// under dev
+
+//
+// Retruns {tracing, finalAnswer}
+// 
+// Tracing contains a list of aQuery: 
+//		[{
+//			queryID: '0',  <- should equal to responseID
+//			queryURL: '',  <- should always be your query
+//			queryHost: '', 
+//			responseID: '0', <- should equal to queryID
+//			isAuthoritative: 'false',
+//			numAnswer: '0', <- this is the number shown in Answers(??)
+//			answers: [],
+//			numNameserver: '0', <- this is the number shown in Nameservers(??)
+//			nameServers: [],
+//			numAdditional: '0', <- this is the number shown in Additional Information(??)
+//			additionals: []
+//		}]
+//
+// nameServers and additionals contains a list of:
+// 		{
+//			url: 'fs1.ugrad.cs.ubc.ca',
+//			ttl: '2142',
+//			typer: 'A',
+//			ip: '198.162.35.1'
+//		}
+//
+//
+// Final Answer is the actual answer returned by the program
+// 		www.cs.ubc.ca 2600 111.222.333.444
+// 
 // if you use -t and need the full data, call this function
 function breakDownTrace(data) {
 	var result = [];
+	var finalAnswer;
 	if (data) {
 		var eachTraceBlock = data.split('\n\n');
 		if (eachTraceBlock) {
@@ -1169,7 +1275,7 @@ function breakDownTrace(data) {
 						additionals: []
 					};
 					var splitByLine = rawQuery.split('\r\n');
-					console.log('SPLINE '+splitByLine[3]);
+					
 					if (splitByLine && splitByLine.length > 0) {
 						var j;
 						if (splitByLine && splitByLine.length > 0) {
@@ -1215,7 +1321,7 @@ function breakDownTrace(data) {
 									var answerLength = parseInt(aQuery.numAnswer);
 									if (answerLength && answerLength > 0) {
 										var a;
-										for (a = 0; a < answerLength; ++a) {
+										for (a = 0; a < rawAnswers.length; ++a) {
 											var answer = {
 												url: '',
 												ttl: '0',
@@ -1227,7 +1333,6 @@ function breakDownTrace(data) {
 												if (item.indexOf('Nameservers (') >= 0) { 
 													aQuery.numNameserver = item.replace(/[^0-9]/gi, '');
 													hasAnswer = true;
-													console.log(aQuery.numNameserver);
 												} else {
 													var splitAns = item.trim().split(/\s+/);
 													answer.url = splitAns[0];
@@ -1258,7 +1363,7 @@ function breakDownTrace(data) {
 								offset += 1;
 								if (rawNSdata) {
 									var rawNS = rawNSdata.split('\n');
-									for (ns = 0; ns < nslength; ++ns) {
+									for (ns = 0; ns < rawNS.length; ++ns) {
 										var nsitem = rawNS[ns];
 										var namserver = {
 											url: '',
@@ -1268,9 +1373,8 @@ function breakDownTrace(data) {
 										};
 										if (nsitem) {
 											if (nsitem.indexOf('Additional Information') >= 0) { 
-												aQuery.numAdditional = nsitem.replace(/[^0-9]/, '');
+												aQuery.numAdditional = nsitem.replace(/[^0-9]/gi, '');
 												hasNameserver = true;
-												console.log(aQuery.numAdditional);
 											} else {
 												var splitNS = nsitem.trim().split(/\s+/);
 												namserver.url = splitNS[0];
@@ -1289,10 +1393,9 @@ function breakDownTrace(data) {
 							if (!hasNameserver) {
 								var rawADDLine = splitByLine[offset];
 								offset += 1;
-
 								if (rawADDLine) {
 									var addtionalLine = rawADDLine.trim().split(/\s+/);
-									aQuery.numAdditional = addtionalLine[1].replace(/[^0-9]/, '');
+									aQuery.numAdditional = addtionalLine[1].replace(/[^0-9]/gi, '');
 								}
 							}
 							var additionalLen = parseInt(aQuery.numAdditional);
@@ -1303,21 +1406,25 @@ function breakDownTrace(data) {
 								if (rawAddORG) {
 									var rawAdd =  rawAddORG.split('\n');
 									if (rawAdd && rawAdd.length > 0) {
-										for (add = 0; add < additionalLen; ++add) {
+										for (add = 0; add < rawAdd.length; ++add) {
 											var additional = {
 												url: '',
 												ttl: '0',
 												typer: '',
 												ip: ''
 											};
-											var item = rawAdd[offset];
+											var item = rawAdd[add];
 											if (item) {
-												var splitAdd = item.trim().split(/\s+/);
-												additional.url = splitAdd[0];
-												additional.ttl = splitAdd[1];
-												additional.typer = splitAdd[2];
-												additional.ip = splitAdd[3];
-												aQuery.additionals.push(additional);
+												if (add < aQuery.numAdditional) {
+													var splitAdd = item.trim().split(/\s+/);
+													additional.url = splitAdd[0];
+													additional.ttl = splitAdd[1];
+													additional.typer = splitAdd[2];
+													additional.ip = splitAdd[3];
+													aQuery.additionals.push(additional);
+												} else {
+													finalAnswer = item;
+												}
 											}
 										}
 									}
@@ -1329,9 +1436,9 @@ function breakDownTrace(data) {
 				}
 			}
 		}
-		console.log(result);
+		// console.log(result);
 	}
-	return result;
+	return {tracing: result, answer: finalAnswer};
 }
 
 
