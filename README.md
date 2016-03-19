@@ -1,7 +1,12 @@
 # a2_test_script
 
-Test Coverage
+How to run:
+------
+Since student's code may fail more often, instead of running 'mocha', I suggest export it to a file.
+Instead of 'mocha' **do 'mocha --reporter spec > report.txt' instead**
+This will output it to a file with all the stacktraces if their program crashed.
 
+Test Coverage
 Functionality: [/22]
 ------
    **COVERED**
@@ -23,7 +28,7 @@ Functionality: [/22]
    *NOT COVERED*
    [/2] Can deal with information in the additional information section when not all of it is of interest/use (e.g. groups.yahoo.com)
   
-   *NOT COVERED* 
+   *COVERED* 
    [/2] The TTL is reported and is the shortest TTL from the A record or any CNAMEs leading to that record.  
 
 
