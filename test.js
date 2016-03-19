@@ -888,6 +888,260 @@ describe('Error Handling', function(){
 	});
 });
 
+describe('Tracing', function(){
+	this.timeout(60000);
+
+	// #1
+	describe('#1 [/2] Prints query ID, server being queried and FQDN', function () {
+		var retData = '';
+		var traceData;
+		var nameServer = '198.162.35.192';
+		var url = 'www.cs.ubc.ca';
+		var trace = '-t';
+		// ========================================================================
+		// access child process, mess but works :]
+        before(function (done) {
+        	var lastUpdatedTime = -1;
+        	var currentTime = 0;
+        	var timer = setInterval(function (){
+        		var timeDiff = currentTime - lastUpdatedTime;
+  				if (currentTime > 11000 || (lastUpdatedTime != -1 && timeDiff > 1000)) {
+  					// do your preprocessing here
+  					if (retData) {
+  						traceData = breakDownTrace(retData);
+  					}
+  					clearInterval(timer);
+  					done();
+  				} else {
+  					currentTime += 1000;
+  				}
+			}, 1000);
+            var child = require('child_process').spawn('java', ['-jar', 'DNSlookup.jar', nameServer, url, trace]);
+			child.stdout.on('data', function(data) {
+				if (data && data.toString() != 'undefined') {
+					retData += data.toString(); 
+		    		lastUpdatedTime = currentTime;
+				}
+			});
+			child.stderr.on("data", function (data) {
+		   		clearInterval(timer);
+		   		console.log('Error occurred '+data.toString());
+		   		done();
+			});
+	    });
+
+        // ========================================================================
+        // write your test here 
+        // mocha js doc: https://mochajs.org/
+        // chai js doc: http://chaijs.com/api/bdd/
+        // chai-string api: http://chaijs.com/plugins/chai-string/
+
+
+
+		// ========================================================================
+		// runs after block test is done, dont touch
+		after(function() {
+			// console.log();
+			// console.log('---------------------------------------------------------------------------');
+			// console.log();
+			// console.log('Actual Return: ');
+			// console.log(retData);
+		 	// console.log();
+		 	// console.log('===========================================================================');
+		 	// console.log();
+		});
+	});
+
+	// #2
+	describe('#2 [/2] Query ID is different for every query during a run', function () {
+		var retData = '';
+		var nameServer = '192.112.36.4';
+		var url = 'loop1.csproject.org';
+		var trace = '-t';
+		var traceData;
+		// ========================================================================
+		// access child process, mess but works :]
+        before(function (done) {
+        	var lastUpdatedTime = -1;
+        	var currentTime = 0;
+        	var timer = setInterval(function (){
+        		var timeDiff = currentTime - lastUpdatedTime;
+  				if (currentTime > 11000 || (lastUpdatedTime != -1 && timeDiff > 1000)) {
+  					if (retData) {
+  						traceData = breakDownTrace(retData);
+  					}
+  					clearInterval(timer);
+  					done();
+  				} else {
+  					currentTime += 1000;
+  				}
+			}, 1000);
+            var child = require('child_process').spawn('java', ['-jar', 'DNSlookup.jar', nameServer, url, trace]);
+			child.stdout.on('data', function(data) {
+				if (data && data.toString() != 'undefined') {
+					retData += data.toString(); 
+					lastUpdatedTime = currentTime;
+				}
+			});
+			child.stderr.on("data", function (data) {
+		   		clearInterval(timer);
+		   		console.log('Error occurred '+data.toString());
+		   		done();
+			});
+	    });
+
+        // ========================================================================
+        // write your test here 
+        // mocha js doc: https://mochajs.org/
+        // chai js doc: http://chaijs.com/api/bdd/
+        // chai-string api: http://chaijs.com/plugins/chai-string/
+
+
+
+
+		// ========================================================================
+		// runs after block test is done, dont touch
+		after(function() {
+			// console.log();
+			// console.log('---------------------------------------------------------------------------');
+			// console.log();
+			// console.log('Actual Return: ');
+			// console.log(retData);
+		 	// console.log();
+		 	// console.log('===========================================================================');
+		 	// console.log();
+		});
+	});
+
+	// #3
+	describe('#3 [/1] Prints Response ID line, with query ID and whether or not this is an authoritative response', function () {
+		var retData = '';
+		var nameServer = '192.112.36.4';
+		var url = 'wee.cs.ubc.ca';
+		var trace = '-t';
+		var traceData;
+		// ========================================================================
+		// access child process, mess but works :]
+        before(function (done) {
+        	var lastUpdatedTime = -1;
+        	var currentTime = 0;
+        	var timer = setInterval(function (){
+        		var timeDiff = currentTime - lastUpdatedTime;
+  				if (currentTime > 11000 || (lastUpdatedTime != -1 && timeDiff > 1000)) {
+  					if (retData) {
+  						traceData = breakDownTrace(retData);
+  					}
+  					clearInterval(timer);
+  					done();
+  				} else {
+  					currentTime += 1000;
+  				}
+			}, 1000);
+            var child = require('child_process').spawn('java', ['-jar', 'DNSlookup.jar', nameServer, url, trace]);
+			child.stdout.on('data', function(data) {
+				if (data && data.toString() != 'undefined') {
+					retData += data.toString(); 
+					lastUpdatedTime = currentTime;
+				}
+			});
+			child.stderr.on("data", function (data) {
+		   		clearInterval(timer);
+		   		console.log('Error occurred '+data.toString());
+		   		done();
+			});
+	    });
+
+        // ========================================================================
+        // write your test here 
+        // mocha js doc: https://mochajs.org/
+        // chai js doc: http://chaijs.com/api/bdd/
+        // chai-string api: http://chaijs.com/plugins/chai-string/
+
+
+
+
+		// ========================================================================
+		// runs after block test is done, dont touch
+		after(function() {
+			// console.log();
+			// console.log('---------------------------------------------------------------------------');
+			// console.log();
+			// console.log('Actual Return: ');
+			// console.log(retData);
+		 	// console.log();
+		 	// console.log('===========================================================================');
+		 	// console.log();
+		});
+	});
+
+	// #4
+	describe('#4 [/4] Prints the counts for the Answers, Nameservers, and Additional Information fields. Format is as required and includes TTL', function () {
+		var retData = '';
+		var nameServer = '192.112.36.4';
+		var url = 'ca';
+		var trace = '-t';
+		var traceData;
+		// ========================================================================
+		// access child process, mess but works :]
+        before(function (done) {
+        	var lastUpdatedTime = -1;
+        	var currentTime = 0;
+        	var timer = setInterval(function (){
+        		var timeDiff = currentTime - lastUpdatedTime;
+  				if (currentTime > 11000 || (lastUpdatedTime != -1 && timeDiff > 1000)) {
+  					if (retData) {
+  						traceData = breakDownTrace(retData);
+  					}
+  					clearInterval(timer);
+  					done();
+  				} else {
+  					currentTime += 1000;
+  				}
+			}, 1000);
+            var child = require('child_process').spawn('java', ['-jar', 'DNSlookup.jar', nameServer, url, trace]);
+			child.stdout.on('data', function(data) {
+				if (data && data.toString() != 'undefined') {
+					retData += data.toString(); 
+					lastUpdatedTime = currentTime;
+				}
+			});
+			child.stderr.on("data", function (data) {
+		   		clearInterval(timer);
+		   		console.log('Error occurred '+data.toString());
+		   		done();
+			});
+	    });
+
+        // ========================================================================
+        // write your test here 
+        // mocha js doc: https://mochajs.org/
+        // chai js doc: http://chaijs.com/api/bdd/
+        // chai-string api: http://chaijs.com/plugins/chai-string/
+
+
+
+		// ========================================================================
+		// runs after block test is done, dont touch
+		after(function() {
+			// console.log();
+			// console.log('---------------------------------------------------------------------------');
+			// console.log();
+			// console.log('Actual Return: ');
+			// console.log(retData);
+		 	// console.log();
+		 	// console.log('===========================================================================');
+		 	// console.log();
+		});
+	});
+	
+	after(function () {
+		console.log();
+		console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>');
+		console.log('Error Handling ['+part_tracing+'/9]');
+		console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>');
+		console.log();
+	});
+});
 
 
 // under dev
