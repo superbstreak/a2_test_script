@@ -35,16 +35,16 @@ Error Handling: [/8]
    In this next section there is 1 mark for detecting the error and
    another for properly printing the output
    
-   *NOT COVERED*
+   **COVERED**
    [/2] Timeout - nameserver doesn't respond
 
-   *NOT COVERED*
+   **COVERED**
    [/2] Too many queries (e.g. loop1.csproject.org)
 
-   *NOT COVERED*
+   **PARTIALLY COVERED (MANUALLY CHECK CODE)**
    [/2] Name does not resolve returns 3 for rcode and reports -1 for the TTL (e.g. wee.cs.ubc.ca)
 
-   *NOT COVERED*
+   **PARTIALLY COVERED (MANUALLY CHECK CODE)**
    [/2] Other types of errors (e.g. ca)
   
 
