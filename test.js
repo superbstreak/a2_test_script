@@ -1164,6 +1164,7 @@ describe('Tracing', function(){
         	expect(traceData.tracing).to.not.be.undefined;
         	if (traceData && traceData.tracing) {
 				var i;
+				expect(traceData.tracing.length).to.be.above(0);
 				for (i = 0; i < traceData.tracing.length; ++i) {
 					var item = traceData.tracing[i];
 					expect(item).to.not.be.undefined;
@@ -1182,6 +1183,7 @@ describe('Tracing', function(){
         	var isValid = true;
         	if (traceData && traceData.tracing) {
 				var i;
+				expect(traceData.tracing.length).to.be.above(0);
 				for (i = 0; i < traceData.tracing.length; ++i) {
 					var item = traceData.tracing[i];
 					if (item) {
@@ -1265,6 +1267,7 @@ describe('Tracing', function(){
         	var listOfQID = [];
         	if (traceData && traceData.tracing) {
 				var i;
+				expect(traceData.tracing.length).to.be.above(0);
 				for (i = 0; i < traceData.tracing.length; ++i) {
 					var item = traceData.tracing[i];
 					if (item) {
@@ -1343,6 +1346,7 @@ describe('Tracing', function(){
         	expect(traceData.tracing).to.not.be.undefined;
         	if (traceData && traceData.tracing) {
 				var i;
+				expect(traceData.tracing.length).to.be.above(0);
 				for (i = 0; i < traceData.tracing.length; ++i) {
 					var item = traceData.tracing[i];
 					expect(item).to.not.be.undefined;
@@ -1427,6 +1431,7 @@ describe('Tracing', function(){
         	expect(traceData.tracing).to.not.be.undefined;
         	if (traceData && traceData.tracing) {
 				var i;
+				expect(traceData.tracing.length).to.be.above(0);
 				for (i = 0; i < traceData.tracing.length; ++i) {
 					var item = traceData.tracing[i];
 					expect(item).to.not.be.undefined;
@@ -1447,6 +1452,7 @@ describe('Tracing', function(){
         	expect(traceData.tracing).to.not.be.undefined;
         	if (traceData && traceData.tracing) {
 				var i;
+				expect(traceData.tracing.length).to.be.above(0);
 				for (i = 0; i < traceData.tracing.length; ++i) {
 					var item = traceData.tracing[i];
 					expect(item).to.not.be.undefined;
@@ -1467,6 +1473,7 @@ describe('Tracing', function(){
         	expect(traceData.tracing).to.not.be.undefined;
         	if (traceData && traceData.tracing) {
 				var i;
+				expect(traceData.tracing.length).to.be.above(0);
 				for (i = 0; i < traceData.tracing.length; ++i) {
 					var item = traceData.tracing[i];
 					expect(item).to.not.be.undefined;
@@ -1487,6 +1494,7 @@ describe('Tracing', function(){
         	expect(traceData.tracing).to.not.be.undefined;
         	if (traceData && traceData.tracing) {
 				var i;
+				expect(traceData.tracing.length).to.be.above(0);
 				for (i = 0; i < traceData.tracing.length; ++i) {
 					var item = traceData.tracing[i];
 					expect(item).to.not.be.undefined;
