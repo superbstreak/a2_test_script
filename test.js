@@ -941,10 +941,90 @@ describe('Error Handling', function(){
 		});
 	});
 
-	// #4
-	describe('#4 [/2] Other types of errors', function () {
+	// #4a
+	describe('#4a [/1] Other types of errors', function () {
 		var retData = '';
-		var nameServer = 'ca';
+		var nameServer = '192.112.36.4';
+		var url = 'ca';
+		var trace = '';
+		var splitData;
+		// ========================================================================
+		// access child process, mess but works :]
+        before(function (done) {
+        	var lastUpdatedTime = -1;
+        	var currentTime = 0;
+        	var timer = setInterval(function (){
+        		var timeDiff = currentTime - lastUpdatedTime;
+  				if (currentTime > 11000 || (lastUpdatedTime != -1 && timeDiff > 1000)) {
+  					if (retData) {
+  						splitData = retData.trim().split(/\s+/);
+  					}
+  					clearInterval(timer);
+  					done();
+  				} else {
+  					currentTime += 1000;
+  				}
+			}, 1000);
+            var child = require('child_process').spawn('java', ['-jar', 'DNSlookup.jar', nameServer, url, trace]);
+			child.stdout.on('data', function(data) {
+				if (data && data.toString() != 'undefined') {
+					retData += data.toString(); 
+					lastUpdatedTime = currentTime;
+				}
+			});
+			child.stderr.on("data", function (data) {
+		   		clearInterval(timer);
+		   		console.log('Error occurred '+data.toString());
+		   		done();
+			});
+	    });
+
+        // ========================================================================
+        // write your test here 
+        // mocha js doc: https://mochajs.org/
+        // chai js doc: http://chaijs.com/api/bdd/
+        // chai-string api: http://chaijs.com/plugins/chai-string/
+
+        var len = 0;
+		it("[0pts] return shouldhave 3 items", function() {
+        	len = splitData.length;
+			expect(splitData).to.have.lengthOf(3);
+		});
+
+		it("[1pts] return should have the original url", function() {
+			expect(splitData[0]).to.equal(url);
+			
+		});
+
+		it("[0pts] return should have the TTL field", function() {
+			expect(splitData[1]).to.equal('-4');
+			part_errhandle += 1;
+		});
+
+		it("[1pts] return should have the expected ip address", function() {
+			expect(splitData[2]).to.equal('0.0.0.0');
+		});
+
+
+
+		// ========================================================================
+		// runs after block test is done, dont touch
+		after(function() {
+			// console.log();
+			// console.log('---------------------------------------------------------------------------');
+			// console.log();
+			// console.log('Actual Return: ');
+			// console.log(retData);
+		 	// console.log();
+		 	// console.log('===========================================================================');
+		 	// console.log();
+		});
+	});
+
+	// #4b
+	describe('#4b [/1] Other types of errors', function () {
+		var retData = '';
+		var nameServer = 'ab.ba.ab.ba';
 		var url = 'www.google.com';
 		var trace = '';
 		var splitData;
@@ -1003,7 +1083,6 @@ describe('Error Handling', function(){
 
 		it("[1pts] return should have the expected ip address", function() {
 			expect(splitData[2]).to.equal('0.0.0.0');
-			part_errhandle += 1;
 		});
 
 
@@ -1274,9 +1353,9 @@ describe('Tracing', function(){
 					expect(rid).to.not.be.undefined;
 					expect(auth).to.not.be.undefined;
 					expect(parseInt(qid)).to.be.a('number');
-					expect(parseInt(qid)).to.be.above(0);
+					expect(parseInt(qid)).to.be.above(-1);
 					expect(parseInt(rid)).to.be.a('number');
-					expect(parseInt(rid)).to.be.above(0);
+					expect(parseInt(rid)).to.be.above(-1);
 					expect(qid).to.equal(rid);
 					expect(['true', 'false']).to.include(auth);
 				}
