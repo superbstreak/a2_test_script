@@ -26,8 +26,8 @@ var part_tracing = 0;	// 9
 describe('Functionality', function(){
 	this.timeout(60000);
 
-	// #1
-	describe('#1 [2pt] Basic query to a name server that is authoritative', function () {
+	// >>>>>>>>>> #1
+	describe('>>>>>>>>>> #1 [2pt] Basic query to a name server that is authoritative', function () {
 		var retData = '';
 		var splitData;
 		var nameServer = '198.162.35.1';
@@ -40,18 +40,17 @@ describe('Functionality', function(){
         	var currentTime = 0;
         	var timer = setInterval(function (){
         		var timeDiff = currentTime - lastUpdatedTime;
-  				if (currentTime > 11000 || (lastUpdatedTime != -1 && timeDiff > 1000)) {
+  				if (currentTime > 15000 || (lastUpdatedTime != -1 && timeDiff > 3000)) {
   					// do your preprocessing here
-  					if (retData) {
-  						splitData = retData.trim().split(/\s+/);
-  					}
+  					var breakDown = breakDownNoTrace(retData);
+  					splitData = breakDown.answer;
   					clearInterval(timer);
   					done();
   				} else {
   					currentTime += 1000;
   				}
 			}, 1000);
-            var child = require('child_process').spawn('java', ['-jar', 'DNSlookup.jar', nameServer, url, trace]);
+            var child = require('child_process').spawn('java', ['-jar', 'DNSlookup.jar', nameServer, url]);
 			child.stdout.on('data', function(data) {
 				if (data && data.toString() != 'undefined') {
 					retData += data.toString(); 
@@ -73,25 +72,35 @@ describe('Functionality', function(){
 
         var len = 0;
         it("[0pts] return shouldhave 3 items", function() {
+        	expect(splitData).to.not.be.undefined;
         	len = splitData.length;
 			expect(splitData).to.have.lengthOf(3);
 		});
 
 		it("[1pts] return should have the original url", function() {
+			expect(splitData).to.not.be.undefined;
+			expect(splitData[0]).to.not.be.undefined;
 			expect(splitData[0]).to.equal(url);
 			part_function += 1;
 		});
 
 		it("[0pts] return should have the TTL field", function() {
+			expect(splitData).to.not.be.undefined;
+			expect(splitData[1]).to.not.be.undefined;
 			expect(parseInt(splitData[1])).to.be.a('number');
 		});
 
 		it("[0pts] return should have the TTL > 0", function() {
+			expect(splitData).to.not.be.undefined;
+			expect(splitData[1]).to.not.be.undefined;
+			expect(parseInt(splitData[1])).to.be.a('number');
 			var ttl = parseInt(splitData[1]);
 			expect(ttl).to.be.above(0);
 		});
 
 		it("[1pts] return should have the expected ip address", function() {
+			expect(splitData).to.not.be.undefined;
+			expect(splitData[2]).to.not.be.undefined;
 			expect(splitData[2]).to.equal('142.103.6.5');
 			part_function += 1;
 		});
@@ -110,8 +119,8 @@ describe('Functionality', function(){
 		});
 	});
 
-	// #2
-	describe('#2 [5pt] Basic query start with root', function () {
+	// >>>>>>>>>> #2
+	describe('>>>>>>>>>> #2 [5pt] Basic query start with root', function () {
 		var retData = '';
 		var nameServer = '192.112.36.4';
 		var url = 'www.ubc.ca';
@@ -124,17 +133,16 @@ describe('Functionality', function(){
         	var currentTime = 0;
         	var timer = setInterval(function (){
         		var timeDiff = currentTime - lastUpdatedTime;
-  				if (currentTime > 11000 || (lastUpdatedTime != -1 && timeDiff > 1000)) {
-  					if (retData) {
-  						splitData = retData.trim().split(/\s+/);
-  					}
+  				if (currentTime > 15000 || (lastUpdatedTime != -1 && timeDiff > 3000)) {
+  					var breakDown = breakDownNoTrace(retData);
+  					splitData = breakDown.answer;
   					clearInterval(timer);
   					done();
   				} else {
   					currentTime += 1000;
   				}
 			}, 1000);
-            var child = require('child_process').spawn('java', ['-jar', 'DNSlookup.jar', nameServer, url, trace]);
+            var child = require('child_process').spawn('java', ['-jar', 'DNSlookup.jar', nameServer, url]);
 			child.stdout.on('data', function(data) {
 				if (data && data.toString() != 'undefined') {
 					retData += data.toString(); 
@@ -156,25 +164,34 @@ describe('Functionality', function(){
 
 		var len = 0;
 		it("[0pts] return shouldhave 3 items", function() {
+			expect(splitData).to.not.be.undefined;
         	len = splitData.length;
 			expect(splitData).to.have.lengthOf(3);
 		});
 
 		it("[1pts] return should have the original url", function() {
+			expect(splitData).to.not.be.undefined;
 			expect(splitData[0]).to.equal(url);
 			part_function += 1;
 		});
 
 		it("[0pts] return should have the TTL field", function() {
+			expect(splitData).to.not.be.undefined;
+			expect(splitData[1]).to.not.be.undefined;
 			expect(parseInt(splitData[1])).to.be.a('number');
 		});
 
 		it("[0pts] return should have the TTL > 0", function() {
+			expect(splitData).to.not.be.undefined;
+			expect(splitData[1]).to.not.be.undefined;
+			expect(parseInt(splitData[1])).to.be.a('number');
 			var ttl = parseInt(splitData[1]);
 			expect(ttl).to.be.above(0);
 		});
 
 		it("[4pts] return should have the expected ip address", function() {
+			expect(splitData).to.not.be.undefined;
+			expect(splitData[2]).to.not.be.undefined;
 			expect(splitData[2]).to.equal('142.103.59.226');
 			part_function += 4;
 		});
@@ -194,8 +211,8 @@ describe('Functionality', function(){
 		});
 	});
 
-	// #3
-	describe('#3 [5pt] basic type query result in a cname', function () {
+	// >>>>>>>>>> #3
+	describe('>>>>>>>>>> #3 [5pt] basic type query result in a cname', function () {
 		var retData = '';
 		var nameServer = '192.112.36.4';
 		var url = 'prep.ai.mit.edu';
@@ -208,17 +225,16 @@ describe('Functionality', function(){
         	var currentTime = 0;
         	var timer = setInterval(function (){
         		var timeDiff = currentTime - lastUpdatedTime;
-  				if (currentTime > 11000 || (lastUpdatedTime != -1 && timeDiff > 1000)) {
-  					if (retData) {
-  						splitData = retData.trim().split(/\s+/);
-  					}
+  				if (currentTime > 15000 || (lastUpdatedTime != -1 && timeDiff > 3000)) {
+  					var breakDown = breakDownNoTrace(retData);
+  					splitData = breakDown.answer;
   					clearInterval(timer);
   					done();
   				} else {
   					currentTime += 1000;
   				}
 			}, 1000);
-            var child = require('child_process').spawn('java', ['-jar', 'DNSlookup.jar', nameServer, url, trace]);
+            var child = require('child_process').spawn('java', ['-jar', 'DNSlookup.jar', nameServer, url]);
 			child.stdout.on('data', function(data) {
 				if (data && data.toString() != 'undefined') {
 					retData += data.toString(); 
@@ -240,25 +256,34 @@ describe('Functionality', function(){
 
 		var len = 0;
 		it("[0pts] return shouldhave 3 items", function() {
+			expect(splitData).to.not.be.undefined;
         	len = splitData.length;
 			expect(splitData).to.have.lengthOf(3);
 		});
 
 		it("[1pts] return should have the original url", function() {
+			expect(splitData).to.not.be.undefined;
 			expect(splitData[0]).to.equal(url);
 			part_function += 1;
 		});
 
 		it("[0pts] return should have the TTL field", function() {
+			expect(splitData).to.not.be.undefined;
+			expect(splitData[1]).to.not.be.undefined;
 			expect(parseInt(splitData[1])).to.be.a('number');
 		});
 
 		it("[0pts] return should have the TTL > 0", function() {
+			expect(splitData).to.not.be.undefined;
+			expect(splitData[1]).to.not.be.undefined;
+			expect(parseInt(splitData[1])).to.be.a('number');
 			var ttl = parseInt(splitData[1]);
 			expect(ttl).to.be.above(0);
 		});
 
 		it("[4pts] return should have the expected ip address", function() {
+			expect(splitData).to.not.be.undefined;
+			expect(splitData[2]).to.not.be.undefined;
 			expect(splitData[2]).to.equal('208.118.235.20');
 			part_function += 4;
 		});
@@ -279,8 +304,8 @@ describe('Functionality', function(){
 		});
 	});
 
-	// #4
-	describe('#4 [3pt] query that reutns a name server', function () {
+	// >>>>>>>>>> #4
+	describe('>>>>>>>>>> #4 [3pt] query that reutns a name server', function () {
 		var retData = '';
 		var nameServer = '192.112.36.4';
 		var url = 'www.stanford.edu';
@@ -293,17 +318,16 @@ describe('Functionality', function(){
         	var currentTime = 0;
         	var timer = setInterval(function (){
         		var timeDiff = currentTime - lastUpdatedTime;
-  				if (currentTime > 11000 || (lastUpdatedTime != -1 && timeDiff > 1000)) {
-  					if (retData) {
-  						splitData = retData.trim().split(/\s+/);
-  					}
+  				if (currentTime > 15000 || (lastUpdatedTime != -1 && timeDiff > 3000)) {
+  					var breakDown = breakDownNoTrace(retData);
+  					splitData = breakDown.answer;
   					clearInterval(timer);
   					done();
   				} else {
   					currentTime += 1000;
   				}
 			}, 1000);
-            var child = require('child_process').spawn('java', ['-jar', 'DNSlookup.jar', nameServer, url, trace]);
+            var child = require('child_process').spawn('java', ['-jar', 'DNSlookup.jar', nameServer, url]);
 			child.stdout.on('data', function(data) {
 				if (data && data.toString() != 'undefined') {
 					retData += data.toString(); 
@@ -325,25 +349,34 @@ describe('Functionality', function(){
 
 		var len = 0;
         it("[0pts] return shouldhave 3 items", function() {
+        	expect(splitData).to.not.be.undefined;
         	len = splitData.length;
 			expect(splitData).to.have.lengthOf(3);
 		});
 
 		it("[1pts] return should have the original url", function() {
+			expect(splitData).to.not.be.undefined;
 			expect(splitData[0]).to.equal(url);
 			part_function += 1;
 		});
 
 		it("[0pts] return should have the TTL field", function() {
+			expect(splitData).to.not.be.undefined;
+			expect(splitData[1]).to.not.be.undefined;
 			expect(parseInt(splitData[1])).to.be.a('number');
 		});
 
 		it("[0pts] return should have the TTL > 0", function() {
+			expect(splitData).to.not.be.undefined;
+			expect(splitData[1]).to.not.be.undefined;
+			expect(parseInt(splitData[1])).to.be.a('number');
 			var ttl = parseInt(splitData[1]);
 			expect(ttl).to.be.above(0);
 		});
 
 		it("[2pts] return should have the expected ip address", function() {
+			expect(splitData).to.not.be.undefined;
+			expect(splitData[2]).to.not.be.undefined;
 			expect(['52.27.47.89', '54.186.193.26', '52.11.42.24']).to.include(splitData[2]);
 			part_function += 2;
 		});
@@ -366,8 +399,8 @@ describe('Functionality', function(){
 		});
 	});
 
-	// #5
-	describe('#5 [3pt] a complicated lookup series', function () {
+	// >>>>>>>>>> #5
+	describe('>>>>>>>>>> #5 [3pt] a complicated lookup series', function () {
 		var retData = '';
 		var nameServer = '192.112.36.4';
 		var url = 'finance.google.ca';
@@ -380,17 +413,16 @@ describe('Functionality', function(){
         	var currentTime = 0;
         	var timer = setInterval(function (){
         		var timeDiff = currentTime - lastUpdatedTime;
-  				if (currentTime > 11000 || (lastUpdatedTime != -1 && timeDiff > 1000)) {
-  					if (retData) {
-  						splitData = retData.trim().split(/\s+/);
-  					}
+  				if (currentTime > 15000 || (lastUpdatedTime != -1 && timeDiff > 3000)) {
+  					var breakDown = breakDownNoTrace(retData);
+  					splitData = breakDown.answer;
   					clearInterval(timer);
   					done();
   				} else {
   					currentTime += 1000;
   				}
 			}, 1000);
-            var child = require('child_process').spawn('java', ['-jar', 'DNSlookup.jar', nameServer, url, trace]);
+            var child = require('child_process').spawn('java', ['-jar', 'DNSlookup.jar', nameServer, url]);
 			child.stdout.on('data', function(data) {
 				if (data && data.toString() != 'undefined') {
 					retData += data.toString(); 
@@ -412,6 +444,7 @@ describe('Functionality', function(){
 
 		var len = 0;
         it("[0pts] return shouldhave 3 items", function() {
+        	expect(splitData).to.not.be.undefined;
         	len = splitData.length;
 			expect(splitData).to.have.lengthOf(3);
 		});
@@ -421,15 +454,22 @@ describe('Functionality', function(){
 		});
 
 		it("[0pts] return should have the TTL field", function() {
+			expect(splitData).to.not.be.undefined;
+			expect(splitData[1]).to.not.be.undefined;
 			expect(parseInt(splitData[1])).to.be.a('number');
 		});
 
 		it("[0pts] return should have the TTL > 0", function() {
+			expect(splitData).to.not.be.undefined;
+			expect(splitData[1]).to.not.be.undefined;
+			expect(parseInt(splitData[1])).to.be.a('number');
 			var ttl = parseInt(splitData[1]);
 			expect(ttl).to.be.above(0);
 		});
 
 		it("[3pts] return should have the expected ip address", function() {
+			expect(splitData).to.not.be.undefined;
+			expect(splitData[2]).to.not.be.undefined;
 			expect([
 				'216.58.193.110', 
 				'216.58.193.78', 
@@ -439,6 +479,18 @@ describe('Functionality', function(){
 				'172.217.2.110', 
 				'172.217.3.110', 
 				'172.217.0.142', 
+				'184.150.182.148',
+				'184.150.182.153',
+				'184.150.182.157',
+				'184.150.182.162',
+				'184.150.182.163',
+				'184.150.182.167',
+				'184.150.182.168',
+				'184.150.182.172',
+				'184.150.182.177',
+				'184.150.182.182',
+				'184.150.182.183',
+				'184.150.182.187'
 				]).to.include(splitData[2]);
 			part_function += 3;
 		});
@@ -461,8 +513,8 @@ describe('Functionality', function(){
 		});
 	});
 
-	// #6
-	describe('#6 [2pt] can deal with info in the additional field', function () {
+	// >>>>>>>>>> #6
+	describe('>>>>>>>>>> #6 [2pt] can deal with info in the additional field', function () {
 		var retData = '';
 		var nameServer = '192.112.36.4';
 		var url = 'groups.yahoo.com';
@@ -475,17 +527,16 @@ describe('Functionality', function(){
         	var currentTime = 0;
         	var timer = setInterval(function (){
         		var timeDiff = currentTime - lastUpdatedTime;
-  				if (currentTime > 11000 || (lastUpdatedTime != -1 && timeDiff > 1000)) {
-  					if (retData) {
-  						splitData = retData.trim().split(/\s+/);
-  					}
+  				if (currentTime > 15000 || (lastUpdatedTime != -1 && timeDiff > 3000)) {
+  					var breakDown = breakDownNoTrace(retData);
+  					splitData = breakDown.answer;
   					clearInterval(timer);
   					done();
   				} else {
   					currentTime += 1000;
   				}
 			}, 1000);
-            var child = require('child_process').spawn('java', ['-jar', 'DNSlookup.jar', nameServer, url, trace]);
+            var child = require('child_process').spawn('java', ['-jar', 'DNSlookup.jar', nameServer, url]);
 			child.stdout.on('data', function(data) {
 				if (data && data.toString() != 'undefined') {
 					retData += data.toString(); 
@@ -507,6 +558,7 @@ describe('Functionality', function(){
 
 		var len = 0;
         it("[0pts] return shouldhave 3 items", function() {
+        	expect(splitData).to.not.be.undefined;
         	len = splitData.length;
 			expect(splitData).to.have.lengthOf(3);
 		});
@@ -517,15 +569,22 @@ describe('Functionality', function(){
 		});
 
 		it("[0pts] return should have the TTL field", function() {
+			expect(splitData).to.not.be.undefined;
+			expect(splitData[1]).to.not.be.undefined;
 			expect(parseInt(splitData[1])).to.be.a('number');
 		});
 
 		it("[0pts] return should have the TTL > 0", function() {
+			expect(splitData).to.not.be.undefined;
+			expect(splitData[1]).to.not.be.undefined;
+			expect(parseInt(splitData[1])).to.be.a('number');
 			var ttl = parseInt(splitData[1]);
 			expect(ttl).to.be.above(0);
 		});
 
 		it("[2pts] return should have the expected ip address", function() {
+			expect(splitData).to.not.be.undefined;
+			expect(splitData[2]).to.not.be.undefined;
 			expect([
 				'208.71.44.30',
 				'208.71.44.31'
@@ -551,8 +610,8 @@ describe('Functionality', function(){
 		});
 	});
 
-	// #7
-	describe('#7 [2pt] the TTL reported is the shortest', function () {
+	// >>>>>>>>>> #7
+	describe('>>>>>>>>>> #7 [2pt] the TTL reported is the shortest', function () {
 		var retData = '';
 		var nameServer = '192.112.36.4';
 		var url = 'www.cs.ubc.ca';
@@ -565,10 +624,8 @@ describe('Functionality', function(){
         	var currentTime = 0;
         	var timer = setInterval(function (){
         		var timeDiff = currentTime - lastUpdatedTime;
-  				if (currentTime > 11000 || (lastUpdatedTime != -1 && timeDiff > 1000)) {
-  					if (retData) {
-  						traceData = breakDownTrace(retData);
-  					}
+  				if (currentTime > 15000 || (lastUpdatedTime != -1 && timeDiff > 3000)) {
+  					traceData = breakDownTrace(retData);
   					clearInterval(timer);
   					done();
   				} else {
@@ -595,14 +652,21 @@ describe('Functionality', function(){
         // chai js doc: http://chaijs.com/api/bdd/
         // chai-string api: http://chaijs.com/plugins/chai-string/
 
-        it("[?pts] shortest TTL should be used every step of the way??? ", function() {
+        it("[IGNORE] shortest TTL should be used every step of the way??? ", function() {
         	var isValid = true;
+        	expect(traceData).to.not.be.undefined;
+			expect(traceData.tracing).to.not.be.undefined;
         	if (traceData && traceData.tracing) {
 				var i;
 				var smallestTTL = 9999999;
 				var currentSmallest = [];
 				for (i = 0; i < traceData.tracing.length; ++i) {
 					var item = traceData.tracing[i];
+					expect(item).to.not.be.undefined;
+					expect(item.queryHost).to.not.be.undefined;
+					expect(item.answers).to.not.be.undefined;
+					expect(item.additionals).to.not.be.undefined;
+					expect(item.additionals).to.not.be.undefined;
 					if (item) {
 						if (i > 0) {
 							if (item.queryHost && currentSmallest) {
@@ -626,6 +690,9 @@ describe('Functionality', function(){
 						}
 						if (trace) {
 						  	trace.forEach(function(a) {
+						  		expect(a).to.not.be.undefined;
+						  		expect(a.ip).to.not.be.undefined;
+						  		expect(a.ttl).to.not.be.undefined;
 								if (a && a.ip && a.ttl) {
 									if (a.ttl == smallestTTL) {
 										currentSmallest.push(a.ip);
@@ -646,13 +713,21 @@ describe('Functionality', function(){
 		
 		it("[2pts] shortest TTL should be used for the final answer", function() {
         	var isValid = true;
+        	expect(traceData).to.not.be.undefined;
+			expect(traceData.tracing).to.not.be.undefined;
+			expect(traceData.finalAnswer).to.not.be.undefined;
         	if (traceData && traceData.tracing && traceData.finalAnswer) {
-				var i;
 				var smallestTTL = 9999999;
 				var currentSmallest = [];
-				var ans = traceData.tracing[traceData.tracing.length].answers;
+				expect(traceData.tracing[traceData.tracing.length - 1]).to.not.be.undefined;
+				expect(traceData.tracing[traceData.tracing.length - 1].answers).to.not.be.undefined;
+
+				var ans = traceData.tracing[traceData.tracing.length - 1].answers;
 				if (ans) {
 					ans.forEach(function(a) {
+						expect(a).to.not.be.undefined;
+						expect(a.ip).to.not.be.undefined;
+						expect(a.ttl).to.not.be.undefined;
 						if (a && a.ip && a.ttl) {
 							if (a.ttl == smallestTTL) {
 								currentSmallest.push(a.ip);
@@ -664,7 +739,7 @@ describe('Functionality', function(){
 						}
 					});
 				}
-				var finalsplit = traceData.finalAnswer.split('/\s+/')
+				var finalsplit = traceData.finalAnswer;
 				if (finalsplit && finalsplit.length == 3 && currentSmallest) {
 					var usingShorestTTL = (currentSmallest.indexOf(finalsplit[2]) > -1);
 					if (!usingShorestTTL) {
@@ -702,8 +777,8 @@ describe('Functionality', function(){
 describe('Error Handling', function(){
 	this.timeout(60000);
 
-	// #1
-	describe('#1 [/2] Timeout - nameserver doesnt respond', function () {
+	// >>>>>>>>>> #1
+	describe('>>>>>>>>>> #1 [/2] Timeout - nameserver doesnt respond', function () {
 		var retData = '';
 		var splitData;
 		var nameServer = '198.162.35.192';
@@ -716,18 +791,17 @@ describe('Error Handling', function(){
         	var currentTime = 0;
         	var timer = setInterval(function (){
         		var timeDiff = currentTime - lastUpdatedTime;
-  				if (currentTime > 11000 || (lastUpdatedTime != -1 && timeDiff > 1000)) {
+  				if (currentTime > 15000 || (lastUpdatedTime != -1 && timeDiff > 3000)) {
   					// do your preprocessing here
-  					if (retData) {
-  						splitData = retData.trim().split(/\s+/);
-  					}
+  					var breakDown = breakDownNoTrace(retData);
+  					splitData = breakDown.answer;
   					clearInterval(timer);
   					done();
   				} else {
   					currentTime += 1000;
   				}
 			}, 1000);
-            var child = require('child_process').spawn('java', ['-jar', 'DNSlookup.jar', nameServer, url, trace]);
+            var child = require('child_process').spawn('java', ['-jar', 'DNSlookup.jar', nameServer, url]);
 			child.stdout.on('data', function(data) {
 				if (data && data.toString() != 'undefined') {
 					retData += data.toString(); 
@@ -781,8 +855,8 @@ describe('Error Handling', function(){
 		});
 	});
 
-	// #2
-	describe('#2 [/2] Too many queries', function () {
+	// >>>>>>>>>> #2
+	describe('>>>>>>>>>> #2 [/2] Too many queries', function () {
 		var retData = '';
 		var nameServer = '192.112.36.4';
 		var url = 'loop1.csproject.org';
@@ -795,17 +869,16 @@ describe('Error Handling', function(){
         	var currentTime = 0;
         	var timer = setInterval(function (){
         		var timeDiff = currentTime - lastUpdatedTime;
-  				if (currentTime > 11000 || (lastUpdatedTime != -1 && timeDiff > 1000)) {
-  					if (retData) {
-  						splitData = retData.trim().split(/\s+/);
-  					}
+  				if (currentTime > 15000 || (lastUpdatedTime != -1 && timeDiff > 3000)) {
+  					var breakDown = breakDownNoTrace(retData);
+  					splitData = breakDown.answer;
   					clearInterval(timer);
   					done();
   				} else {
   					currentTime += 1000;
   				}
 			}, 1000);
-            var child = require('child_process').spawn('java', ['-jar', 'DNSlookup.jar', nameServer, url, trace]);
+            var child = require('child_process').spawn('java', ['-jar', 'DNSlookup.jar', nameServer, url]);
 			child.stdout.on('data', function(data) {
 				if (data && data.toString() != 'undefined') {
 					retData += data.toString(); 
@@ -860,8 +933,8 @@ describe('Error Handling', function(){
 		});
 	});
 
-	// #3
-	describe('#3  [/2] Name does not resolve reports -1 for the TTL', function () {
+	// >>>>>>>>>> #3
+	describe('>>>>>>>>>> #3  [/2] Name does not resolve reports -1 for the TTL', function () {
 		var retData = '';
 		var nameServer = '192.112.36.4';
 		var url = 'wee.cs.ubc.ca';
@@ -874,17 +947,16 @@ describe('Error Handling', function(){
         	var currentTime = 0;
         	var timer = setInterval(function (){
         		var timeDiff = currentTime - lastUpdatedTime;
-  				if (currentTime > 11000 || (lastUpdatedTime != -1 && timeDiff > 1000)) {
-  					if (retData) {
-  						splitData = retData.trim().split(/\s+/);
-  					}
+  				if (currentTime > 15000 || (lastUpdatedTime != -1 && timeDiff > 3000)) {
+  					var breakDown = breakDownNoTrace(retData);
+  					splitData = breakDown.answer;
   					clearInterval(timer);
   					done();
   				} else {
   					currentTime += 1000;
   				}
 			}, 1000);
-            var child = require('child_process').spawn('java', ['-jar', 'DNSlookup.jar', nameServer, url, trace]);
+            var child = require('child_process').spawn('java', ['-jar', 'DNSlookup.jar', nameServer, url]);
 			child.stdout.on('data', function(data) {
 				if (data && data.toString() != 'undefined') {
 					retData += data.toString(); 
@@ -941,8 +1013,8 @@ describe('Error Handling', function(){
 		});
 	});
 
-	// #4a
-	describe('#4a [/1] Other types of errors', function () {
+	// >>>>>>>>>> #4a
+	describe('>>>>>>>>>> #4a [/1] Other types of errors', function () {
 		var retData = '';
 		var nameServer = '192.112.36.4';
 		var url = 'ca';
@@ -955,17 +1027,16 @@ describe('Error Handling', function(){
         	var currentTime = 0;
         	var timer = setInterval(function (){
         		var timeDiff = currentTime - lastUpdatedTime;
-  				if (currentTime > 11000 || (lastUpdatedTime != -1 && timeDiff > 1000)) {
-  					if (retData) {
-  						splitData = retData.trim().split(/\s+/);
-  					}
+  				if (currentTime > 15000 || (lastUpdatedTime != -1 && timeDiff > 3000)) {
+  					var breakDown = breakDownNoTrace(retData);
+  					splitData = breakDown.answer;
   					clearInterval(timer);
   					done();
   				} else {
   					currentTime += 1000;
   				}
 			}, 1000);
-            var child = require('child_process').spawn('java', ['-jar', 'DNSlookup.jar', nameServer, url, trace]);
+            var child = require('child_process').spawn('java', ['-jar', 'DNSlookup.jar', nameServer, url]);
 			child.stdout.on('data', function(data) {
 				if (data && data.toString() != 'undefined') {
 					retData += data.toString(); 
@@ -1021,8 +1092,8 @@ describe('Error Handling', function(){
 		});
 	});
 
-	// #4b
-	describe('#4b [/1] Other types of errors', function () {
+	// >>>>>>>>>> #4b
+	describe('>>>>>>>>>> #4b [/1] Other types of errors', function () {
 		var retData = '';
 		var nameServer = 'ab.ba.ab.ba';
 		var url = 'www.google.com';
@@ -1035,17 +1106,16 @@ describe('Error Handling', function(){
         	var currentTime = 0;
         	var timer = setInterval(function (){
         		var timeDiff = currentTime - lastUpdatedTime;
-  				if (currentTime > 11000 || (lastUpdatedTime != -1 && timeDiff > 1000)) {
-  					if (retData) {
-  						splitData = retData.trim().split(/\s+/);
-  					}
+  				if (currentTime > 15000 || (lastUpdatedTime != -1 && timeDiff > 3000)) {
+  					var breakDown = breakDownNoTrace(retData);
+  					splitData = breakDown.answer;
   					clearInterval(timer);
   					done();
   				} else {
   					currentTime += 1000;
   				}
 			}, 1000);
-            var child = require('child_process').spawn('java', ['-jar', 'DNSlookup.jar', nameServer, url, trace]);
+            var child = require('child_process').spawn('java', ['-jar', 'DNSlookup.jar', nameServer, url]);
 			child.stdout.on('data', function(data) {
 				if (data && data.toString() != 'undefined') {
 					retData += data.toString(); 
@@ -1067,22 +1137,23 @@ describe('Error Handling', function(){
 
         var len = 0;
 		it("[0pts] return shouldhave 3 items", function() {
+			expect(splitData).to.not.be.undefined;
         	len = splitData.length;
-			expect(splitData).to.have.lengthOf(3);
+        	expect(len).to.not.be.undefined;
+			expect([3,44]).to.include(parseInt(len));
 		});
 
 		it("[1pts] return should have the original url", function() {
-			expect(splitData[0]).to.equal(url);
-			
+			expect([url,'Usage:']).to.include(splitData[0]);
 		});
 
 		it("[0pts] return should have the TTL field", function() {
-			expect(splitData[1]).to.equal('-4');
+			expect(['-4','java']).to.include(splitData[1]);
 			part_errhandle += 1;
 		});
 
 		it("[1pts] return should have the expected ip address", function() {
-			expect(splitData[2]).to.equal('0.0.0.0');
+			expect(['0.0.0.0','-jar']).to.include(splitData[2]);
 		});
 
 
@@ -1113,8 +1184,8 @@ describe('Error Handling', function(){
 describe('Tracing', function(){
 	this.timeout(60000);
 
-	// #1
-	describe('#1 [/2] Prints query ID, server being queried and FQDN', function () {
+	// >>>>>>>>>> #1
+	describe('>>>>>>>>>> #1 [/2] Prints query ID, server being queried and FQDN', function () {
 		var retData = '';
 		var traceData;
 		var nameServer = '192.112.36.4';
@@ -1127,7 +1198,7 @@ describe('Tracing', function(){
         	var currentTime = 0;
         	var timer = setInterval(function (){
         		var timeDiff = currentTime - lastUpdatedTime;
-  				if (currentTime > 11000 || (lastUpdatedTime != -1 && timeDiff > 1000)) {
+  				if (currentTime > 15000 || (lastUpdatedTime != -1 && timeDiff > 3000)) {
   					// do your preprocessing here
   					if (retData) {
   						traceData = breakDownTrace(retData);
@@ -1159,48 +1230,43 @@ describe('Tracing', function(){
         // chai-string api: http://chaijs.com/plugins/chai-string/
 
         it("[1pts] has the correct labels", function() {
+        	var i;
         	var isValid = true;
         	expect(traceData).to.not.be.undefined;
         	expect(traceData.tracing).to.not.be.undefined;
-        	if (traceData && traceData.tracing) {
-				var i;
-				expect(traceData.tracing.length).to.be.above(0);
-				for (i = 0; i < traceData.tracing.length; ++i) {
-					var item = traceData.tracing[i];
-					expect(item).to.not.be.undefined;
-					var qid = item.queryID;
-					var server = item.queryHost;
-					var fqdn = item.queryURL;
-					expect(qid).to.not.be.undefined;
-					expect(server).to.not.be.undefined;
-					expect(fqdn).to.not.be.undefined;
-				}
+			expect(traceData.tracing.length).to.be.above(0);
+			for (i = 0; i < traceData.tracing.length; ++i) {
+				var item = traceData.tracing[i];
+				expect(item).to.not.be.undefined;
+				var qid = item.queryID;
+				var server = item.queryHost;
+				var fqdn = item.queryURL;
+				expect(qid).to.not.be.undefined;
+				expect(server).to.not.be.undefined;
+				expect(fqdn).to.not.be.undefined;
 			}
 			part_tracing += 1;
 		});
 
 		it("[1pts] has the correct labels and data", function() {
-        	var isValid = true;
-        	if (traceData && traceData.tracing) {
-				var i;
-				expect(traceData.tracing.length).to.be.above(0);
-				for (i = 0; i < traceData.tracing.length; ++i) {
-					var item = traceData.tracing[i];
-					if (item) {
-						var qid = item.queryID;
-						var server = item.queryHost;
-						var fqdn = item.queryURL;
-						if (qid && fqdn && server) {
-							expect(parseInt(qid)).to.be.a('number');
-							expect(parseInt(qid)).to.be.above(0);
-							expect(fqdn).to.be.a('string');
-							expect(fqdn).to.equal(url);
-							expect(server).to.be.a('string');
-						}
-					}
+			var i;
+			expect(traceData).to.not.be.undefined;
+        	expect(traceData.tracing).to.not.be.undefined;
+			expect(traceData.tracing.length).to.be.above(0);
+			for (i = 0; i < traceData.tracing.length; ++i) {
+				var item = traceData.tracing[i];
+				expect(item).to.not.be.undefined;
+				var qid = item.queryID;
+				var server = item.queryHost;
+				var fqdn = item.queryURL;
+				if (qid && fqdn && server) {
+					expect(parseInt(qid)).to.be.a('number');
+					expect(parseInt(qid)).to.be.above(0);
+					expect(fqdn).to.be.a('string');
+					expect(fqdn).to.equal(url);
+					expect(server).to.be.a('string');
 				}
 			}
-			expect(isValid).to.equal(true);
 			part_tracing += 1;
 		});
 
@@ -1219,8 +1285,8 @@ describe('Tracing', function(){
 		});
 	});
 
-	// #2
-	describe('#2 [/2] Query ID is different for every query during a run', function () {
+	// >>>>>>>>>> #2
+	describe('>>>>>>>>>> #2 [/2] Query ID is different for every query during a run', function () {
 		var retData = '';
 		var nameServer = '192.112.36.4';
 		var url = 'www.cs.ubc.ca';
@@ -1233,7 +1299,7 @@ describe('Tracing', function(){
         	var currentTime = 0;
         	var timer = setInterval(function (){
         		var timeDiff = currentTime - lastUpdatedTime;
-  				if (currentTime > 11000 || (lastUpdatedTime != -1 && timeDiff > 1000)) {
+  				if (currentTime > 15000 || (lastUpdatedTime != -1 && timeDiff > 3000)) {
   					if (retData) {
   						traceData = breakDownTrace(retData);
   					}
@@ -1265,19 +1331,18 @@ describe('Tracing', function(){
 
         it("[2pts] query id is different for every query", function() {
         	var listOfQID = [];
-        	if (traceData && traceData.tracing) {
-				var i;
-				expect(traceData.tracing.length).to.be.above(0);
-				for (i = 0; i < traceData.tracing.length; ++i) {
-					var item = traceData.tracing[i];
-					if (item) {
-						var qid = item.queryID;
-						if (qid) {
-							expect(listOfQID.indexOf(qid)).to.equal(-1);
-							listOfQID.push(qid);
-						}
-					}
-				}
+        	expect(traceData).to.not.be.undefined;
+        	expect(traceData.tracing).to.not.be.undefined;
+			expect(traceData.tracing.length).to.be.above(0);
+			var i;
+			expect(traceData.tracing.length).to.be.above(0);
+			for (i = 0; i < traceData.tracing.length; ++i) {
+				var item = traceData.tracing[i];
+				expect(item).to.not.be.undefined;
+				var qid = item.queryID;
+				expect(qid).to.not.be.undefined;
+				expect(listOfQID.indexOf(qid)).to.equal(-1);
+				listOfQID.push(qid);
 			}
 			part_tracing += 2;
 		});
@@ -1297,8 +1362,8 @@ describe('Tracing', function(){
 		});
 	});
 
-	// #3
-	describe('#3 [/1] Prints Response ID line, with query ID and whether or not this is an authoritative response', function () {
+	// >>>>>>>>>> #3
+	describe('>>>>>>>>>> #3 [/1] Prints Response ID line, with query ID and whether or not this is an authoritative response', function () {
 		var retData = '';
 		var nameServer = '192.112.36.4';
 		var url = 'www.cs.ubc.ca';
@@ -1311,7 +1376,7 @@ describe('Tracing', function(){
         	var currentTime = 0;
         	var timer = setInterval(function (){
         		var timeDiff = currentTime - lastUpdatedTime;
-  				if (currentTime > 11000 || (lastUpdatedTime != -1 && timeDiff > 1000)) {
+  				if (currentTime > 15000 || (lastUpdatedTime != -1 && timeDiff > 3000)) {
   					if (retData) {
   						traceData = breakDownTrace(retData);
   					}
@@ -1342,27 +1407,26 @@ describe('Tracing', function(){
         // chai-string api: http://chaijs.com/plugins/chai-string/
 
 		it("[1pts] has the correct labels and data", function() {
+			console.log(traceData);
+			var i;
         	expect(traceData).to.not.be.undefined;
         	expect(traceData.tracing).to.not.be.undefined;
-        	if (traceData && traceData.tracing) {
-				var i;
-				expect(traceData.tracing.length).to.be.above(0);
-				for (i = 0; i < traceData.tracing.length; ++i) {
-					var item = traceData.tracing[i];
-					expect(item).to.not.be.undefined;
-					var qid = item.queryID;
-					var rid = item.responseID;
-					var auth = item.isAuthoritative;
-					expect(qid).to.not.be.undefined;
-					expect(rid).to.not.be.undefined;
-					expect(auth).to.not.be.undefined;
-					expect(parseInt(qid)).to.be.a('number');
-					expect(parseInt(qid)).to.be.above(-1);
-					expect(parseInt(rid)).to.be.a('number');
-					expect(parseInt(rid)).to.be.above(-1);
-					expect(qid).to.equal(rid);
-					expect(['true', 'false']).to.include(auth);
-				}
+			expect(traceData.tracing.length).to.be.above(0);
+			for (i = 0; i < traceData.tracing.length; ++i) {
+				var item = traceData.tracing[i];
+				expect(item).to.not.be.undefined;
+				var qid = item.queryID;
+				var rid = item.responseID;
+				var auth = item.isAuthoritative;
+				expect(qid).to.not.be.undefined;
+				expect(rid).to.not.be.undefined;
+				expect(auth).to.not.be.undefined;
+				expect(parseInt(qid)).to.be.a('number');
+				expect(parseInt(qid)).to.be.above(-1);
+				expect(parseInt(rid)).to.be.a('number');
+				expect(parseInt(rid)).to.be.above(-1);
+				expect(qid).to.equal(rid);
+				expect([true, false]).to.include(auth);
 			}
 			part_tracing += 1;
 		});
@@ -1382,8 +1446,8 @@ describe('Tracing', function(){
 		});
 	});
 
-	// #4
-	describe('#4 [/4] Prints the counts for the Ans, NS, and Additional Info includes TTL', function () {
+	// >>>>>>>>>> #4
+	describe('>>>>>>>>>> #4 [/4] Prints the counts for the Ans, NS, and Additional Info includes TTL', function () {
 		var retData = '';
 		var nameServer = '192.112.36.4';
 		var url = 'www.cs.ubc.ca';
@@ -1396,7 +1460,7 @@ describe('Tracing', function(){
         	var currentTime = 0;
         	var timer = setInterval(function (){
         		var timeDiff = currentTime - lastUpdatedTime;
-  				if (currentTime > 11000 || (lastUpdatedTime != -1 && timeDiff > 1000)) {
+  				if (currentTime > 15000 || (lastUpdatedTime != -1 && timeDiff > 3000)) {
   					if (retData) {
   						traceData = breakDownTrace(retData);
   					}
@@ -1429,20 +1493,17 @@ describe('Tracing', function(){
         it("[1pts] Prints the counts for the Answers", function() {
         	expect(traceData).to.not.be.undefined;
         	expect(traceData.tracing).to.not.be.undefined;
-        	if (traceData && traceData.tracing) {
-				var i;
-				expect(traceData.tracing.length).to.be.above(0);
-				for (i = 0; i < traceData.tracing.length; ++i) {
-					var item = traceData.tracing[i];
-					expect(item).to.not.be.undefined;
-					var ansCount = item.numAnswer;
-					var answers = item.answers;
-					expect(ansCount).to.not.be.undefined;
-					expect(answers).to.not.be.undefined;
-
-					expect(parseInt(ansCount)).to.be.a('number');
-					expect(answers.length).to.equal(parseInt(ansCount));
-				}
+			var i;
+			expect(traceData.tracing.length).to.be.above(0);
+			for (i = 0; i < traceData.tracing.length; ++i) {
+				var item = traceData.tracing[i];
+				expect(item).to.not.be.undefined;
+				var ansCount = item.numAnswer;
+				var answers = item.answers;
+				expect(ansCount).to.not.be.undefined;
+				expect(answers).to.not.be.undefined;
+				expect(parseInt(ansCount)).to.be.a('number');
+				expect(answers.length).to.equal(parseInt(ansCount));
 			}
 			part_tracing += 1;
 		});
@@ -1450,20 +1511,17 @@ describe('Tracing', function(){
 		it("[1pts] Prints the counts for the Nameservers", function() {
         	expect(traceData).to.not.be.undefined;
         	expect(traceData.tracing).to.not.be.undefined;
-        	if (traceData && traceData.tracing) {
-				var i;
-				expect(traceData.tracing.length).to.be.above(0);
-				for (i = 0; i < traceData.tracing.length; ++i) {
-					var item = traceData.tracing[i];
-					expect(item).to.not.be.undefined;
-					var nsCount = item.numNameserver;
-					var nses = item.nameServers;
-					expect(nsCount).to.not.be.undefined;
-					expect(nses).to.not.be.undefined;
-
-					expect(parseInt(nsCount)).to.be.a('number');
-					expect(nses.length).to.equal(parseInt(nsCount));
-				}
+			var i;
+			expect(traceData.tracing.length).to.be.above(0);
+			for (i = 0; i < traceData.tracing.length; ++i) {
+				var item = traceData.tracing[i];
+				expect(item).to.not.be.undefined;
+				var nsCount = item.numNameserver;
+				var nses = item.nameServers;
+				expect(nsCount).to.not.be.undefined;
+				expect(nses).to.not.be.undefined;
+				expect(parseInt(nsCount)).to.be.a('number');
+				expect(nses.length).to.equal(parseInt(nsCount));
 			}
 			part_tracing += 1;
 		});
@@ -1471,20 +1529,18 @@ describe('Tracing', function(){
 		it("[1pts] Prints the counts for the Additional Information", function() {
         	expect(traceData).to.not.be.undefined;
         	expect(traceData.tracing).to.not.be.undefined;
-        	if (traceData && traceData.tracing) {
-				var i;
-				expect(traceData.tracing.length).to.be.above(0);
-				for (i = 0; i < traceData.tracing.length; ++i) {
-					var item = traceData.tracing[i];
-					expect(item).to.not.be.undefined;
-					var addCount = item.numAdditional;
-					var additionls = item.additionals;
-					expect(addCount).to.not.be.undefined;
-					expect(additionls).to.not.be.undefined;
-
-					expect(parseInt(addCount)).to.be.a('number');
-					expect(additionls.length).to.equal(parseInt(addCount));
-				}
+			var i;
+			expect(traceData.tracing.length).to.be.above(0);
+			var len = traceData.tracing.length;
+			for (i = 0; i < len; ++i) {
+				var item = traceData.tracing[i];
+				expect(item).to.not.be.undefined;
+				var addCount = item.numAdditional;
+				var additionls = item.additionals;
+				expect(addCount).to.not.be.undefined;
+				expect(additionls).to.not.be.undefined;
+				expect(parseInt(addCount)).to.be.a('number');
+				expect(additionls.length).to.equal(parseInt(addCount));
 			}
 			part_tracing += 1;
 		});
@@ -1492,30 +1548,28 @@ describe('Tracing', function(){
 		it("[1pts] Format is as required and includes TTL", function() {
         	expect(traceData).to.not.be.undefined;
         	expect(traceData.tracing).to.not.be.undefined;
-        	if (traceData && traceData.tracing) {
-				var i;
-				expect(traceData.tracing.length).to.be.above(0);
-				for (i = 0; i < traceData.tracing.length; ++i) {
-					var item = traceData.tracing[i];
-					expect(item).to.not.be.undefined;
-					var answers = item.answers;
-					expect(answers).to.not.be.undefined;
-					var nameServers = item.nameServers;
-					expect(nameServers).to.not.be.undefined;
-					var additionals = item.additionals;
-					expect(additionals).to.not.be.undefined;
-					var tracing = [].concat.apply([], [answers, nameServers, additionals]);
-					expect(tracing).to.not.be.undefined;
-					tracing.forEach(function(a) {
-						expect(a).to.not.be.undefined;
-						expect(a.url).to.not.be.undefined;
-						expect(a.ttl).to.not.be.undefined;
-						expect(a.typer).to.not.be.undefined;
-						expect(a.ip).to.not.be.undefined;
-						expect(parseInt(a.ttl)).to.be.a('number');
-						expect(parseInt(a.ttl)).to.be.above(0);
-					});
-				}
+			var i;
+			expect(traceData.tracing.length).to.be.above(0);
+			for (i = 0; i < traceData.tracing.length; ++i) {
+				var item = traceData.tracing[i];
+				expect(item).to.not.be.undefined;
+				var answers = item.answers;
+				expect(answers).to.not.be.undefined;
+				var nameServers = item.nameServers;
+				expect(nameServers).to.not.be.undefined;
+				var additionals = item.additionals;
+				expect(additionals).to.not.be.undefined;
+				var tracing = [].concat.apply([], [answers, nameServers, additionals]);
+				expect(tracing).to.not.be.undefined;
+				tracing.forEach(function(a) {
+					expect(a).to.not.be.undefined;
+					expect(a.url).to.not.be.undefined;
+					expect(a.ttl).to.not.be.undefined;
+					expect(a.typer).to.not.be.undefined;
+					expect(a.ip).to.not.be.undefined;
+					expect(parseInt(a.ttl)).to.be.a('number');
+					expect(parseInt(a.ttl)).to.be.above(0);
+				});
 			}
 			part_tracing += 1;
 		});
@@ -1535,9 +1589,15 @@ describe('Tracing', function(){
 	});
 	
 	after(function () {
+		var suggestedGrade = part_function+part_errhandle+part_tracing;
 		console.log();
 		console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>');
 		console.log('Tracing ['+part_tracing+'/9]');
+		console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>');
+		console.log();
+		console.log();
+		console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>');
+		console.log('Grade Suggestion ['+suggestedGrade+'/39]');
 		console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>');
 		console.log();
 	});
@@ -1577,197 +1637,255 @@ describe('Tracing', function(){
 // 
 // if you use -t and need the full data, call this function
 function breakDownTrace(data) {
+	var isValid = false;
 	var result = [];
+	var finans;
+	try {
+		if (data) {
+			console.log(data);
+			var eachTraceBlock = data.split('\n\n');
+			for (var i = 0; i < eachTraceBlock.length; ++i){
+				var rawQuery = eachTraceBlock[i];
+				if (rawQuery) {
+					var isLast = (i == eachTraceBlock.length - 1);
+					var querySplit = preprocessRawQuery(rawQuery);
+					var queryLine = parseQueryLine(querySplit);
+					var resonseLine = parseResponseLine(querySplit);
+					var ans = parseAnswer(querySplit);
+					var nameservers = parseNameServer(querySplit);
+					var addtional = parseAdditional(querySplit, isLast);
+					var aQuery = {
+						queryID: queryLine.QueryID,
+						queryURL: queryLine.FQDN,
+						queryHost: queryLine.Host,
+						responseID: resonseLine.ResponseID,
+						isAuthoritative: resonseLine.isAuth,
+						numAnswer: ans.numAnswers,
+						answers: ans.answers,
+						numNameserver: nameservers.numNS,
+						nameServers: nameservers.ns,
+						numAdditional: addtional.numAdd,
+						additionals: addtional.adds
+					};
+					if (isLast) {
+						finans = addtional.finalAns;
+					}
+					result.push(aQuery);
+				}
+			}
+			if (result && result[result.length - 1]) {
+				var lastQuery = result[result.length - 1];
+				var lastNumAdditional = lastQuery.numAdditional;
+				var lastAdditional = lastQuery.additionals;
+				if (lastNumAdditional && lastAdditional) {
+					if (lastAdditional.length > lastNumAdditional) {
+						lastAdditional.pop();
+						result.pop();
+						result.push({
+							queryID: lastQuery.queryID,
+							queryURL: lastQuery.queryURL,
+							queryHost: lastQuery.queryHost,
+							responseID: lastQuery.responseID,
+							isAuthoritative: lastQuery.isAuthoritative,
+							numAnswer: lastQuery.numAnswer,
+							answers: lastQuery.answers,
+							numNameserver: lastQuery.numNameserver,
+							nameServers: lastQuery.nameServers,
+							numAdditional: lastQuery.numAdditional,
+							additionals: lastAdditional
+						});
+					}
+				}
+			}
+
+		} else {
+			isValid = false;
+		}
+	} catch (err) {
+		console.log('PARSE ERROR '+err);
+		result = undefined;
+		finans = undefined;
+	}
+	return {tracing: result, finalAnswer: finans, check: isValid};
+}
+
+function preprocessRawQuery(raw) {
+	var result;
+	if (raw) {
+		var pass1 = raw.trim().replace(/\r\n/g, '\n');
+		var pass2 = pass1.trim().replace(/\n\n/g, '\n');	
+		var pass3 = pass2.trim().replace(/\r/g, '');
+		result = pass3.trim().split('\n');
+	} 
+	return result;
+}
+
+function parseQueryLine(query) {
+	var qid;
+	var fqdn;
+	var host;
+	var lineNum;
+	if (query) {
+		lineNum = 0;
+		query.forEach(function(line) {
+			if (line && line.indexOf('Query ID') > -1) {
+				var words = line.trim().split(/\s+/);
+				if (words) {
+					qid = words[2];
+					fqdn = words[3];
+					host = words[5];
+				}
+				return;
+			}
+			lineNum += 1;
+		});
+	} 
+	return {QueryID: qid, FQDN: fqdn, Host: host, pos: lineNum};
+}
+
+function parseResponseLine(query) {
+	var rid;
+	var auth;
+	var lineNum;
+	if (query) {
+		lineNum = 0;
+		query.forEach(function(line) {
+			if (line && line.indexOf('Response ID') > -1) {
+				var words = line.trim().split(/\s+/);
+				if (words) {
+					rid = words[2];
+					if (words[4] && (words[4].indexOf('true') > -1 || words[4].indexOf('false') > -1)) {
+						auth = words[4].indexOf('true') > -1;
+					} else if (words[5]) {
+						auth = words[5].indexOf('true') > -1;
+					}
+				}
+				return;
+			}
+			lineNum += 1;
+		});
+	} 
+	return {ResponseID: rid, isAuth: auth, pos: lineNum};
+}
+
+function parseAnswer(query) {
+	var result;
+	var lineNum;
+	var numOfAnswers;
+	var start = false;
+	if (query) {
+		var i;
+		result = [];
+		lineNum = 0;
+		for (i = 0; i < query.length; ++i) {
+			var line = query[i];
+			if (line) {
+				if (line.indexOf('Nameservers (') > -1) {
+					break;
+				}
+				else if (line.indexOf('Answers (') > -1) {
+					numOfAnswers = line.trim().replace(/[^0-9]/gi, '');
+					start = true;
+				} else if (start) {
+					var words = line.trim().split(/\s+/);
+					result.push({
+						url: words[0],
+						ttl: words[1],
+						typer: words[2],
+						ip: words[3]});
+				}
+			}
+			lineNum += 1;
+		}
+	} 
+	return {numAnswers: numOfAnswers, answers: result, pos: lineNum};
+}
+
+function parseNameServer(query) {
+	var result;
+	var numOfNS;
+	var lineNum;
+	var start = false;
+	if (query) {
+		var i;
+		result = [];
+		lineNum = 0;
+		for (i = 0; i < query.length; ++i) {
+			var line = query[i];
+			if (line) {
+				if (line.indexOf('Additional Information') > -1) {
+					break;
+				} else if (line.indexOf('Nameservers (') > -1) {
+					numOfNS = line.trim().replace(/[^0-9]/gi, '');
+					start = true;
+				} else if (start) {
+					var words = line.trim().split(/\s+/);
+					result.push({
+						url: words[0],
+						ttl: words[1],
+						typer: words[2],
+						ip: words[3]});
+				}
+			}
+			lineNum += 1;
+		}
+	} 
+	return {numNS: numOfNS, ns: result, pos: lineNum};
+}
+
+function parseAdditional(query, isLast) {
+	var result;
+	var finAns;
+	var lineNum;
+	var numAdditional;
+	var start = false;
+	if (query) {
+		var i;
+		result = [];
+		lineNum = 0;
+		for (i = 0; i < query.length; ++i) {
+			var line = query[i];
+			if (line) {
+				var words = line.trim().split(/\s+/);
+				if (line.indexOf('Additional Information') > -1) {
+					numAdditional = line.trim().replace(/[^0-9]/gi, '');
+					start = true;
+				} else if (words && start) {
+					if (i == query.length - 1 && isLast) {
+						finAns = {
+							url: words[0],
+							ttl: words[1],
+							typer: 'FIN',
+							ip: words[2]};
+					} else {
+						result.push({
+							url: words[0],
+							ttl: words[1],
+							typer: words[2],
+							ip: words[3]});
+					}
+				}
+			}
+			lineNum += 1;
+		}
+	} 
+	return {finalAns: finAns, numAdd: numAdditional, adds: result, pos: lineNum};
+}
+
+function breakDownNoTrace(data) {
+	var isValid = false;
+	var result;
 	var finalAnswer;
 	try {
 		if (data) {
-				var eachTraceBlock = data.split('\n\n');
-				if (eachTraceBlock) {
-					var i;
-					for (i = 0; i < eachTraceBlock.length; ++i) {
-						var rawQuery = eachTraceBlock[i];
-						if (rawQuery && rawQuery.length > 0) {
-							var aQuery = {
-								queryID: '0',
-								queryURL: '',
-								queryHost: '',
-								responseID: '0',
-								isAuthoritative: 'false',
-								numAnswer: '0',
-								answers: [],
-								numNameserver: '0',
-								nameServers: [],
-								numAdditional: '0',
-								additionals: []
-							};
-							var splitByLine = rawQuery.split('\r\n');
-							
-							if (splitByLine && splitByLine.length > 0) {
-								var j;
-								if (splitByLine && splitByLine.length > 0) {
-									var offset = 0;
-									var hasAnswer = false;
-									var hasNameserver = false;
-
-									// get query line
-									var rawQueryLine = splitByLine[offset];
-									if (rawQueryLine) {
-										var queryLine = rawQueryLine.trim().split(/\s+/);
-										aQuery.queryID = queryLine[2];
-										aQuery.queryURL = queryLine[3];
-										aQuery.queryHost = queryLine[5];
-										offset += 1;
-									}							
-
-									// get response line
-									var rawResponseLine = splitByLine[offset];
-									if (rawResponseLine) {
-										var responseLine = rawResponseLine.trim().split(/\s+/);
-										aQuery.responseID = responseLine[2];
-										aQuery.isAuthoritative = responseLine[5];
-										offset += 1;
-									}
-
-
-									// get answers
-									var rawAnswerLine = splitByLine[offset];
-									if (rawAnswerLine) {
-										var answerLine = rawAnswerLine.trim().split(/\s+/);
-										aQuery.numAnswer = answerLine[1].replace(/[^0-9]/gi, '');
-										offset += 1;
-									}
-									var answerLength = parseInt(aQuery.numAnswer);
-									var a;
-									if (answerLength && answerLength > 0) {
-										var rawAnswerLineSingle = splitByLine[offset];
-										if (rawAnswerLineSingle) {
-											var rawAnswers = rawAnswerLineSingle.split('\n');
-											offset += 1;
-
-											var answerLength = parseInt(aQuery.numAnswer);
-											if (answerLength && answerLength > 0) {
-												var a;
-												for (a = 0; a < rawAnswers.length; ++a) {
-													var answer = {
-														url: '',
-														ttl: '0',
-														typer: '',
-														ip: ''
-													};
-													var item = rawAnswers[a];
-													if (item) {
-														if (item.indexOf('Nameservers (') >= 0) { 
-															aQuery.numNameserver = item.replace(/[^0-9]/gi, '');
-															hasAnswer = true;
-														} else {
-															var splitAns = item.trim().split(/\s+/);
-															answer.url = splitAns[0];
-															answer.ttl = splitAns[1];
-															answer.typer = splitAns[2];
-															answer.ip = splitAns[3];
-															aQuery.answers.push(answer);
-														}
-													}
-												} 
-											}
-										}
-									}
-
-									// get name servers
-									if(!hasAnswer) {
-										var rawNSLine = splitByLine[offset];
-										if (rawNSLine) {
-											var nsLine = rawNSLine.trim().split(/\s+/);
-											aQuery.numNameserver = nsLine[1].replace(/[^0-9]/gi, '');
-											offset += 1;
-										}
-									}
-									var nslength = parseInt(aQuery.numNameserver);
-									var ns;
-									if (nslength && nslength > 0) {
-										var rawNSdata = splitByLine[offset];
-										offset += 1;
-										if (rawNSdata) {
-											var rawNS = rawNSdata.split('\n');
-											for (ns = 0; ns < rawNS.length; ++ns) {
-												var nsitem = rawNS[ns];
-												var namserver = {
-													url: '',
-													ttl: '0',
-													typer: '',
-													ip: ''
-												};
-												if (nsitem) {
-													if (nsitem.indexOf('Additional Information') >= 0) { 
-														aQuery.numAdditional = nsitem.replace(/[^0-9]/gi, '');
-														hasNameserver = true;
-													} else {
-														var splitNS = nsitem.trim().split(/\s+/);
-														namserver.url = splitNS[0];
-														namserver.ttl = splitNS[1];
-														namserver.typer = splitNS[2];
-														namserver.ip = splitNS[3];
-														aQuery.nameServers.push(namserver);
-													}
-												}
-											} 
-										}
-									}
-
-
-									// get additional
-									if (!hasNameserver) {
-										var rawADDLine = splitByLine[offset];
-										offset += 1;
-										if (rawADDLine) {
-											var addtionalLine = rawADDLine.trim().split(/\s+/);
-											aQuery.numAdditional = addtionalLine[1].replace(/[^0-9]/gi, '');
-										}
-									}
-									var additionalLen = parseInt(aQuery.numAdditional);
-									var add;
-									if (additionalLen && additionalLen > 0) {
-										var rawAddORG = splitByLine[offset];
-										offset += 1;
-										if (rawAddORG) {
-											var rawAdd =  rawAddORG.split('\n');
-											if (rawAdd && rawAdd.length > 0) {
-												for (add = 0; add < rawAdd.length; ++add) {
-													var additional = {
-														url: '',
-														ttl: '0',
-														typer: '',
-														ip: ''
-													};
-													var item = rawAdd[add];
-													if (item) {
-														if (add < aQuery.numAdditional) {
-															var splitAdd = item.trim().split(/\s+/);
-															additional.url = splitAdd[0];
-															additional.ttl = splitAdd[1];
-															additional.typer = splitAdd[2];
-															additional.ip = splitAdd[3];
-															aQuery.additionals.push(additional);
-														} else {
-															finalAnswer = item;
-														}
-													}
-												}
-											}
-										}
-									}
-								}
-							}
-							result.push(aQuery);
-						}
-					}
-				}
-				// console.log(result);
-			}
+			result = data.trim().split(/\s+/);
+		} else {
+			isValid = false;
+		}
 	} catch (err) {
-		console.log('FAIL TO PARSE, MANUALLY CHECK');
+		console.log('PARSE ERROR '+err);
+		result = undefined;
+		isValid = false;
 	}
-	return {tracing: result, answer: finalAnswer};
+	return {answer: result, check: isValid};
 }
-
-
