@@ -14,25 +14,11 @@
       √ [0pts] return should have the TTL > 0
       √ [4pts] return should have the expected ip address
     >>>>>>>>>> #3 [5pt] basic type query result in a cname
-Error occurred java.net.SocketTimeoutException: Receive timed out
-
-Error occurred 	at java.net.DualStackPlainDatagramSocketImpl.socketReceiveOrPeekData(Native Method)
-	at java.net.DualStackPlainDatagramSocketImpl.receive0(Unknown Source)
-	at java.net.AbstractPlainDatagramSocketImpl.receive(Unknown Source)
-	at java.net.DatagramSocket.receive(Unknown Source)
-	at DNSQuery.requestResult(DNSQuery.java:121)
-	at DNSQuery.requestResult(DNSQuery.java:178)
-	at DNSQuery.getResult(DNSQuery.java:193)
-	at DNSQuery.getResult(DNSQuery.java:197)
-	at DNSQuery.getResult(DNSQuery.java:184)
-	at DNSlookup.main(DNSlookup.java:40)
-
-      1) "before all" hook
-      2) [0pts] return shouldhave 3 items
-      3) [1pts] return should have the original url
-      4) [0pts] return should have the TTL field
-      5) [0pts] return should have the TTL > 0
-      6) [4pts] return should have the expected ip address
+      √ [0pts] return shouldhave 3 items
+      √ [1pts] return should have the original url
+      √ [0pts] return should have the TTL field
+      √ [0pts] return should have the TTL > 0
+      √ [4pts] return should have the expected ip address
     >>>>>>>>>> #4 [3pt] query that reutns a name server
       √ [0pts] return shouldhave 3 items
       √ [1pts] return should have the original url
@@ -52,164 +38,25 @@ Error occurred 	at java.net.DualStackPlainDatagramSocketImpl.socketReceiveOrPeek
       √ [0pts] return should have the TTL > 0
       √ [2pts] return should have the expected ip address
     >>>>>>>>>> #7 [2pt] the TTL reported is the shortest
-
-
-Query ID     60747 www.cs.ubc.ca --> 192.112.36.4
-Response ID: 60747 Authoritative = false
-  Answers (0)
-  Nameservers (5)
-       ca                             172800     NS   c.ca-servers.ca
-       ca                             172800     NS   any.ca-servers.ca
-       ca                             172800     NS   d.ca-servers.ca
-       ca                             172800     NS   j.ca-servers.ca
-       ca                             172800     NS   e.ca-servers.ca
-  Additional Information (8)
-       c.ca-servers.ca                172800     A    192.228.28.9
-       d.ca-servers.ca                172800     A    199.19.4.1
-       e.ca-servers.ca                172800     A    192.228.30.9
-       j.ca-servers.ca                172800     A    198.182.167.1
-       any.ca-servers.ca              172800     A    199.4.144.2
-       d.ca-servers.ca                172800     AAAA 2001:500:97:0:0:0:0:1
-       j.ca-servers.ca                172800     AAAA 2001:500:83:0:0:0:0:1
-       any.ca-servers.ca              172800     AAAA 2001:500:a7:0:0:0:0:2
-
-
-Query ID     57803 www.cs.ubc.ca --> 192.228.28.9
-Response ID: 57803 Authoritative = false
-  Answers (0)
-  Nameservers (3)
-       ubc.ca                         86400      NS   dns3.ubc.ca
-       ubc.ca                         86400      NS   hub.ubc.ca
-       ubc.ca                         86400      NS   nightbird.eis.utoronto.ca
-  Additional Information (3)
-       hub.ubc.ca                     86400      A    137.82.1.1
-       dns3.ubc.ca                    86400      A    142.103.1.1
-       nightbird.eis.utoronto.ca      86400      A    128.100.72.90
-
-
-Query ID     25642 www.cs.ubc.ca --> 142.103.1.1
-Response ID: 25642 Authoritative = false
-  Answers (0)
-  Nameservers (3)
-       cs.ubc.ca                      86400      NS   ns1.cs.ubc.ca
-       cs.ubc.ca                      86400      NS   fs1.ugrad.cs.ubc.ca
-       cs.ubc.ca                      86400      NS   temp120.cs.ubc.ca
-  Additional Information (3)
-       fs1.ugrad.cs.ubc.ca            2490       A    198.162.35.1
-       ns1.cs.ubc.ca                  2490       A    142.103.6.6
-       temp120.cs.ubc.ca              86400      A    137.82.61.120
-
-
-Query ID     33567 www.cs.ubc.ca --> 142.103.6.6
-Response ID: 33567 Authoritative = true
-  Answers (1)
-       www.cs.ubc.ca                  3600       A    142.103.6.5
-  Nameservers (2)
-       cs.ubc.ca                      3600       NS   fs1.ugrad.cs.ubc.ca
-       cs.ubc.ca                      3600       NS   ns1.cs.ubc.ca
-  Additional Information (2)
-       fs1.ugrad.cs.ubc.ca            3600       A    198.162.35.1
-       ns1.cs.ubc.ca                  3600       A    142.103.6.6
-www.cs.ubc.ca 3600 142.103.6.5
-
       √ [IGNORE] shortest TTL should be used every step of the way??? 
       √ [2pts] shortest TTL should be used for the final answer
 
 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-Functionality [17/22]
+Functionality [22/22]
 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 
   Error Handling
     >>>>>>>>>> #1 [/2] Timeout - nameserver doesnt respond
-Error occurred java.net.SocketTimeoutException: Receive timed out
-
-Error occurred 	at java.net.DualStackPlainDatagramSocketImpl.socketReceiveOrPeekData(Native Method)
-	at java.net.DualStackPlainDatagramSocketImpl.receive0(Unknown Source)
-	at java.net.AbstractPlainDatagramSocketImpl.receive(Unknown Source)
-	at java.net.DatagramSocket.receive(Unknown Source)
-	at DNSQuery.requestResult(DNSQuery.java:121)
-	at DNSQuery.getResult(DNSQuery.java:193)
-	at DNSQuery.getResult(DNSQuery.java:184)
-      7) "before all" hook
-Error occurred 
-	at DNSlookup.main(DNSlookup.java:40)
-
-      8) [0pts] return shouldhave 3 items
-      9) [0pts] return should have the original url
-      10) [1pts] return should have the TTL field
-      11) [1pts] return should have the expected ip address
+      √ [0pts] return shouldhave 3 items
+      √ [0pts] return should have the original url
+      √ [1pts] return should have the TTL field
+      √ [1pts] return should have the expected ip address
     >>>>>>>>>> #2 [/2] Too many queries
-Error occurred Exception in thread "main" 
-Error occurred java.lang.RuntimeException: Too many queries.
-	at DNSQuery.getResult(DNSQuery.java:190)
-
-      12) "before all" hook
-Error occurred 	at DNSQuery.getResult(DNSQuery.java:197)
-	at DNSQuery.getResult(DNSQuery.java:197)
-	at DNSQuery.getResult(DNSQuery.java:197)
-	at DNSQuery.getResult(DNSQuery.java:197)
-	at DNSQuery.getResult(DNSQuery.java:197)
-	at DNSQuery.getResult(DNSQuery.java:197)
-	at DNSQuery.getResult(DNSQuery.java:197)
-	at DNSQuery.getResult(DNSQuery.java:197)
-	at DNSQuery.getResult(DNSQuery.java:197)
-	at DNSQuery.getResult(DNSQuery.java:197)
-	at DNSQuery.getResult(DNSQuery.java:197)
-	at DNSQuery.getResult(DNSQuery.java:197)
-	at DNSQuery.getResult(DNSQuery.java:197)
-	at DNSQuery.getResult(DNSQuery.java:197)
-	at DNSQuery.getResult(DNSQuery.java:197)
-	at DNSQuery.getResult(DNSQuery.java:197)
-	at DNSQuery.getResult(DNSQuery.java:197)
-      13) [0pts] return shouldhave 3 items
-Error occurred 
-	at DNSQuery.getResult(DNSQuery.java:197)
-	at DNSQuery.getResult(DNSQuery.java:197)
-	at DNSQuery.getResult(DNSQuery.java:197)
-	at DNSQuery.getResult(DNSQuery.java:197)
-	at DNSQuery.getResult(DNSQuery.java:197)
-	at DNSQuery.getResult(DNSQuery.java:197)
-	at DNSQuery.getResult(DNSQuery.java:197)
-	at DNSQuery.getResult(DNSQuery.java:197)
-	at DNSQuery.getResult(DNSQuery.java:197)
-	at DNSQuery.getResult(DNSQuery.java:197)
-	at DNSQuery.getResult(DNSQuery.java:197)
-
-Error occurred 	at DNSQuery.getResult(DNSQuery.java:197)
-	at DNSQuery.getResult(DNSQuery.java:197)
-	at DNSQuery.getResult(DNSQuery.java:197)
-Error occurred 
-	at DNSQuery.getResult(DNSQuery.java:197)
-	at DNSQuery.getResult(DNSQuery.java:197)
-
-Error occurred 	at DNSQuery.getResult(DNSQuery.java:197)
-	at DNSQuery.getResult(DNSQuery.java:197)
-	at DNSQuery.getResult(DNSQuery.java:197)
-	at DNSQuery.getResult(DNSQuery.java:197)
-Error occurred 
-	at DNSQuery.getResult(DNSQuery.java:197)
-	at DNSQuery.getResult(DNSQuery.java:197)
-
-Error occurred 	at DNSQuery.getResult(DNSQuery.java:197)
-	at DNSQuery.getResult(DNSQuery.java:197)
-	at DNSQuery.getResult(DNSQuery.java:197)
-      14) [0pts] return should have the original url
-Error occurred 
-	at DNSQuery.getResult(DNSQuery.java:197)
-	at DNSQuery.getResult(DNSQuery.java:197)
-	at DNSQuery.getResult(DNSQuery.java:197)
-	at DNSQuery.getResult(DNSQuery.java:197)
-	at DNSQuery.getResult(DNSQuery.java:197)
-	at DNSQuery.getResult(DNSQuery.java:197)
-	at DNSQuery.getResult(DNSQuery.java:197)
-	at DNSQuery.getResult(DNSQuery.java:197)
-	at DNSQuery.getResult(DNSQuery.java:197)
-	at DNSQuery.getResult(DNSQuery.java:184)
-	at DNSlookup.main(DNSlookup.java:40)
-
-      15) [1pts] return should have the TTL field
-      16) [1pts] return should have the expected ip address
+      √ [0pts] return shouldhave 3 items
+      √ [0pts] return should have the original url
+      √ [1pts] return should have the TTL field
+      √ [1pts] return should have the expected ip address
     >>>>>>>>>> #3  [/2] Name does not resolve reports -1 for the TTL
       √ [0pts] return shouldhave 3 items
       √ [1pts] return should have the original url
@@ -218,648 +65,38 @@ Error occurred
     >>>>>>>>>> #4a [/1] Other types of errors
       √ [0pts] return shouldhave 3 items
       √ [1pts] return should have the original url
-      17) [0pts] return should have the TTL field
+      √ [0pts] return should have the TTL field
       √ [1pts] return should have the expected ip address
     >>>>>>>>>> #4b [/1] Other types of errors
-Error occurred Exception in thread "main" 
-Error occurred java.net.UnknownHostException: ab.ba.ab.ba
-	at java.net.Inet6AddressImpl.lookupAllHostAddr(Native Method)
-	at java.net.InetAddress$2.lookupAllHostAddr(Unknown Source)
-	at java.net.InetAddress.getAddressesFromNameService(Unknown Source)
-	at java.net.InetAddress.getAllByName0(Unknown Source)
-
-      18) "before all" hook
-Error occurred 	at java.net.InetAddress.getAllByName(Unknown Source)
-	at java.net.InetAddress.getAllByName(Unknown Source)
-	at java.net.InetAddress.getByName(Unknown Source)
-	at DNSlookup.main(DNSlookup.java:30)
-
-      19) [0pts] return shouldhave 3 items
-      20) [1pts] return should have the original url
-      21) [0pts] return should have the TTL field
-      22) [1pts] return should have the expected ip address
+      √ [0pts] return shouldhave 3 items
+      √ [1pts] return should have the original url
+      √ [0pts] return should have the TTL field
+      √ [1pts] return should have the expected ip address
 
 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-Error Handling [2/8]
+Error Handling [8/8]
 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 
   Tracing
     >>>>>>>>>> #1 [/2] Prints query ID, server being queried and FQDN
-
-
-Query ID     3136 www.cs.ubc.ca --> 192.112.36.4
-Response ID: 3136 Authoritative = false
-  Answers (0)
-  Nameservers (5)
-       ca                             172800     NS   j.ca-servers.ca
-       ca                             172800     NS   d.ca-servers.ca
-       ca                             172800     NS   c.ca-servers.ca
-       ca                             172800     NS   e.ca-servers.ca
-       ca                             172800     NS   any.ca-servers.ca
-  Additional Information (8)
-       c.ca-servers.ca                172800     A    192.228.28.9
-       d.ca-servers.ca                172800     A    199.19.4.1
-       e.ca-servers.ca                172800     A    192.228.30.9
-       j.ca-servers.ca                172800     A    198.182.167.1
-       any.ca-servers.ca              172800     A    199.4.144.2
-       d.ca-servers.ca                172800     AAAA 2001:500:97:0:0:0:0:1
-       j.ca-servers.ca                172800     AAAA 2001:500:83:0:0:0:0:1
-       any.ca-servers.ca              172800     AAAA 2001:500:a7:0:0:0:0:2
-
-
-Query ID     42900 www.cs.ubc.ca --> 198.182.167.1
-Response ID: 42900 Authoritative = false
-  Answers (0)
-  Nameservers (3)
-       ubc.ca                         86400      NS   hub.ubc.ca
-       ubc.ca                         86400      NS   nightbird.eis.utoronto.ca
-       ubc.ca                         86400      NS   dns3.ubc.ca
-  Additional Information (3)
-       hub.ubc.ca                     86400      A    137.82.1.1
-       dns3.ubc.ca                    86400      A    142.103.1.1
-       nightbird.eis.utoronto.ca      86400      A    128.100.72.90
-
-
-Query ID     10089 www.cs.ubc.ca --> 137.82.1.1
-Response ID: 10089 Authoritative = false
-  Answers (0)
-  Nameservers (3)
-       cs.ubc.ca                      86400      NS   fs1.ugrad.cs.ubc.ca
-       cs.ubc.ca                      86400      NS   ns1.cs.ubc.ca
-       cs.ubc.ca                      86400      NS   temp120.cs.ubc.ca
-  Additional Information (3)
-       fs1.ugrad.cs.ubc.ca            3145       A    198.162.35.1
-       ns1.cs.ubc.ca                  3145       A    142.103.6.6
-       temp120.cs.ubc.ca              86400      A    137.82.61.120
-
-
-Query ID     35745 www.cs.ubc.ca --> 198.162.35.1
-Response ID: 35745 Authoritative = true
-  Answers (1)
-       www.cs.ubc.ca                  3600       A    142.103.6.5
-  Nameservers (2)
-       cs.ubc.ca                      3600       NS   fs1.ugrad.cs.ubc.ca
-       cs.ubc.ca                      3600       NS   ns1.cs.ubc.ca
-  Additional Information (2)
-       fs1.ugrad.cs.ubc.ca            3600       A    198.162.35.1
-       ns1.cs.ubc.ca                  3600       A    142.103.6.6
-www.cs.ubc.ca 3600 142.103.6.5
-
       √ [1pts] has the correct labels
       √ [1pts] has the correct labels and data
     >>>>>>>>>> #2 [/2] Query ID is different for every query during a run
-
-
-Query ID     1637 www.cs.ubc.ca --> 192.112.36.4
-Response ID: 1637 Authoritative = false
-  Answers (0)
-  Nameservers (5)
-       ca                             172800     NS   c.ca-servers.ca
-       ca                             172800     NS   d.ca-servers.ca
-       ca                             172800     NS   any.ca-servers.ca
-       ca                             172800     NS   j.ca-servers.ca
-       ca                             172800     NS   e.ca-servers.ca
-  Additional Information (8)
-       c.ca-servers.ca                172800     A    192.228.28.9
-       d.ca-servers.ca                172800     A    199.19.4.1
-       e.ca-servers.ca                172800     A    192.228.30.9
-       j.ca-servers.ca                172800     A    198.182.167.1
-       any.ca-servers.ca              172800     A    199.4.144.2
-       d.ca-servers.ca                172800     AAAA 2001:500:97:0:0:0:0:1
-       j.ca-servers.ca                172800     AAAA 2001:500:83:0:0:0:0:1
-       any.ca-servers.ca              172800     AAAA 2001:500:a7:0:0:0:0:2
-
-
-Query ID     60201 www.cs.ubc.ca --> 192.228.28.9
-Response ID: 60201 Authoritative = false
-  Answers (0)
-  Nameservers (3)
-       ubc.ca                         86400      NS   hub.ubc.ca
-       ubc.ca                         86400      NS   nightbird.eis.utoronto.ca
-       ubc.ca                         86400      NS   dns3.ubc.ca
-  Additional Information (3)
-       hub.ubc.ca                     86400      A    137.82.1.1
-       dns3.ubc.ca                    86400      A    142.103.1.1
-       nightbird.eis.utoronto.ca      86400      A    128.100.72.90
-
-
-Query ID     57587 www.cs.ubc.ca --> 137.82.1.1
-Response ID: 57587 Authoritative = false
-  Answers (0)
-  Nameservers (3)
-       cs.ubc.ca                      86400      NS   ns1.cs.ubc.ca
-       cs.ubc.ca                      86400      NS   fs1.ugrad.cs.ubc.ca
-       cs.ubc.ca                      86400      NS   temp120.cs.ubc.ca
-  Additional Information (3)
-       fs1.ugrad.cs.ubc.ca            3140       A    198.162.35.1
-       ns1.cs.ubc.ca                  3140       A    142.103.6.6
-       temp120.cs.ubc.ca              86400      A    137.82.61.120
-
-
-Query ID     58651 www.cs.ubc.ca --> 142.103.6.6
-Response ID: 58651 Authoritative = true
-  Answers (1)
-       www.cs.ubc.ca                  3600       A    142.103.6.5
-  Nameservers (2)
-       cs.ubc.ca                      3600       NS   ns1.cs.ubc.ca
-       cs.ubc.ca                      3600       NS   fs1.ugrad.cs.ubc.ca
-  Additional Information (2)
-       fs1.ugrad.cs.ubc.ca            3600       A    198.162.35.1
-       ns1.cs.ubc.ca                  3600       A    142.103.6.6
-www.cs.ubc.ca 3600 142.103.6.5
-
       √ [2pts] query id is different for every query
     >>>>>>>>>> #3 [/1] Prints Response ID line, with query ID and whether or not this is an authoritative response
-
-
-Query ID     25966 www.cs.ubc.ca --> 192.112.36.4
-Response ID: 25966 Authoritative = false
-  Answers (0)
-  Nameservers (5)
-       ca                             172800     NS   any.ca-servers.ca
-       ca                             172800     NS   c.ca-servers.ca
-       ca                             172800     NS   j.ca-servers.ca
-       ca                             172800     NS   d.ca-servers.ca
-       ca                             172800     NS   e.ca-servers.ca
-  Additional Information (8)
-       c.ca-servers.ca                172800     A    192.228.28.9
-       d.ca-servers.ca                172800     A    199.19.4.1
-       e.ca-servers.ca                172800     A    192.228.30.9
-       j.ca-servers.ca                172800     A    198.182.167.1
-       any.ca-servers.ca              172800     A    199.4.144.2
-       d.ca-servers.ca                172800     AAAA 2001:500:97:0:0:0:0:1
-       j.ca-servers.ca                172800     AAAA 2001:500:83:0:0:0:0:1
-       any.ca-servers.ca              172800     AAAA 2001:500:a7:0:0:0:0:2
-
-
-Query ID     61612 www.cs.ubc.ca --> 199.4.144.2
-Response ID: 61612 Authoritative = false
-  Answers (0)
-  Nameservers (3)
-       ubc.ca                         86400      NS   hub.ubc.ca
-       ubc.ca                         86400      NS   nightbird.eis.utoronto.ca
-       ubc.ca                         86400      NS   dns3.ubc.ca
-  Additional Information (3)
-       hub.ubc.ca                     86400      A    137.82.1.1
-       dns3.ubc.ca                    86400      A    142.103.1.1
-       nightbird.eis.utoronto.ca      86400      A    128.100.72.90
-
-
-Query ID     64158 www.cs.ubc.ca --> 137.82.1.1
-Response ID: 64158 Authoritative = false
-  Answers (0)
-  Nameservers (3)
-       cs.ubc.ca                      86400      NS   fs1.ugrad.cs.ubc.ca
-       cs.ubc.ca                      86400      NS   ns1.cs.ubc.ca
-       cs.ubc.ca                      86400      NS   temp120.cs.ubc.ca
-  Additional Information (3)
-       fs1.ugrad.cs.ubc.ca            3135       A    198.162.35.1
-       ns1.cs.ubc.ca                  3135       A    142.103.6.6
-       temp120.cs.ubc.ca              86400      A    137.82.61.120
-
-
-Query ID     54221 www.cs.ubc.ca --> 198.162.35.1
-Response ID: 54221 Authoritative = true
-  Answers (1)
-       www.cs.ubc.ca                  3600       A    142.103.6.5
-  Nameservers (2)
-       cs.ubc.ca                      3600       NS   fs1.ugrad.cs.ubc.ca
-       cs.ubc.ca                      3600       NS   ns1.cs.ubc.ca
-  Additional Information (2)
-       fs1.ugrad.cs.ubc.ca            3600       A    198.162.35.1
-       ns1.cs.ubc.ca                  3600       A    142.103.6.6
-www.cs.ubc.ca 3600 142.103.6.5
-
-{ tracing: 
-   [ { queryID: '25966',
-       queryURL: 'www.cs.ubc.ca',
-       queryHost: '192.112.36.4',
-       responseID: '25966',
-       isAuthoritative: false,
-       numAnswer: '0',
-       answers: [],
-       numNameserver: '5',
-       nameServers: [Object],
-       numAdditional: '8',
-       additionals: [Object] },
-     { queryID: '61612',
-       queryURL: 'www.cs.ubc.ca',
-       queryHost: '199.4.144.2',
-       responseID: '61612',
-       isAuthoritative: false,
-       numAnswer: '0',
-       answers: [],
-       numNameserver: '3',
-       nameServers: [Object],
-       numAdditional: '3',
-       additionals: [Object] },
-     { queryID: '64158',
-       queryURL: 'www.cs.ubc.ca',
-       queryHost: '137.82.1.1',
-       responseID: '64158',
-       isAuthoritative: false,
-       numAnswer: '0',
-       answers: [],
-       numNameserver: '3',
-       nameServers: [Object],
-       numAdditional: '3',
-       additionals: [Object] },
-     { queryID: '54221',
-       queryURL: 'www.cs.ubc.ca',
-       queryHost: '198.162.35.1',
-       responseID: '54221',
-       isAuthoritative: true,
-       numAnswer: '1',
-       answers: [Object],
-       numNameserver: '2',
-       nameServers: [Object],
-       numAdditional: '2',
-       additionals: [Object] } ],
-  finalAnswer: 
-   { url: 'www.cs.ubc.ca',
-     ttl: '3600',
-     typer: 'FIN',
-     ip: '142.103.6.5' },
-  check: false }
       √ [1pts] has the correct labels and data
     >>>>>>>>>> #4 [/4] Prints the counts for the Ans, NS, and Additional Info includes TTL
-
-
-Query ID     57472 www.cs.ubc.ca --> 192.112.36.4
-Response ID: 57472 Authoritative = false
-  Answers (0)
-  Nameservers (5)
-       ca                             172800     NS   j.ca-servers.ca
-       ca                             172800     NS   c.ca-servers.ca
-       ca                             172800     NS   d.ca-servers.ca
-       ca                             172800     NS   any.ca-servers.ca
-       ca                             172800     NS   e.ca-servers.ca
-  Additional Information (8)
-       c.ca-servers.ca                172800     A    192.228.28.9
-       d.ca-servers.ca                172800     A    199.19.4.1
-       e.ca-servers.ca                172800     A    192.228.30.9
-       j.ca-servers.ca                172800     A    198.182.167.1
-       any.ca-servers.ca              172800     A    199.4.144.2
-       d.ca-servers.ca                172800     AAAA 2001:500:97:0:0:0:0:1
-       j.ca-servers.ca                172800     AAAA 2001:500:83:0:0:0:0:1
-       any.ca-servers.ca              172800     AAAA 2001:500:a7:0:0:0:0:2
-
-
-Query ID     22406 www.cs.ubc.ca --> 198.182.167.1
-
-      23) [1pts] Prints the counts for the Answers
-      24) [1pts] Prints the counts for the Nameservers
-      25) [1pts] Prints the counts for the Additional Information
+      √ [1pts] Prints the counts for the Answers
+      √ [1pts] Prints the counts for the Nameservers
+      √ [1pts] Prints the counts for the Additional Information
       √ [1pts] Format is as required and includes TTL
 
 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-Tracing [6/9]
->>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-
-
->>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-Grade Suggestion [25/39]
+Tracing [9/9]
 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 
 
-  39 passing (1m)
-  25 failing
-
-  1) Functionality >>>>>>>>>> #3 [5pt] basic type query result in a cname "before all" hook:
-     Error: done() called multiple times
-      at Hook.Runnable (C:\Users\Rob\AppData\Roaming\npm\node_modules\mocha\lib\runnable.js:54:17)
-      at new Hook (C:\Users\Rob\AppData\Roaming\npm\node_modules\mocha\lib\hook.js:22:12)
-      at Suite.beforeAll (C:\Users\Rob\AppData\Roaming\npm\node_modules\mocha\lib\suite.js:197:14)
-      at before (C:\Users\Rob\AppData\Roaming\npm\node_modules\mocha\lib\interfaces\common.js:32:17)
-      at Suite.<anonymous> (C:\Users\Rob\OneDrive\test\New folder\test.js:223:9)
-      at context.describe.context.context (C:\Users\Rob\AppData\Roaming\npm\node_modules\mocha\lib\interfaces\bdd.js:47:10)
-      at Suite.<anonymous> (C:\Users\Rob\OneDrive\test\New folder\test.js:215:2)
-      at context.describe.context.context (C:\Users\Rob\AppData\Roaming\npm\node_modules\mocha\lib\interfaces\bdd.js:47:10)
-      at Object.<anonymous> (C:\Users\Rob\OneDrive\test\New folder\test.js:26:1)
-      at require (internal/module.js:12:17)
-      at C:\Users\Rob\AppData\Roaming\npm\node_modules\mocha\lib\mocha.js:219:27
-      at Array.forEach (native)
-      at Mocha.loadFiles (C:\Users\Rob\AppData\Roaming\npm\node_modules\mocha\lib\mocha.js:216:14)
-      at Mocha.run (C:\Users\Rob\AppData\Roaming\npm\node_modules\mocha\lib\mocha.js:468:10)
-      at Object.<anonymous> (C:\Users\Rob\AppData\Roaming\npm\node_modules\mocha\bin\_mocha:403:18)
-      at node.js:968:3
-
-  2) Functionality >>>>>>>>>> #3 [5pt] basic type query result in a cname [0pts] return shouldhave 3 items:
-     AssertionError: expected undefined not to be undefined
-      at Context.<anonymous> (C:\Users\Rob\OneDrive\test\New folder\test.js:259:31)
-      at callFn (C:\Users\Rob\AppData\Roaming\npm\node_modules\mocha\lib\runnable.js:315:21)
-      at Test.Runnable.run (C:\Users\Rob\AppData\Roaming\npm\node_modules\mocha\lib\runnable.js:308:7)
-      at Runner.runTest (C:\Users\Rob\AppData\Roaming\npm\node_modules\mocha\lib\runner.js:422:10)
-      at C:\Users\Rob\AppData\Roaming\npm\node_modules\mocha\lib\runner.js:533:12
-      at next (C:\Users\Rob\AppData\Roaming\npm\node_modules\mocha\lib\runner.js:342:14)
-      at C:\Users\Rob\AppData\Roaming\npm\node_modules\mocha\lib\runner.js:352:7
-      at next (C:\Users\Rob\AppData\Roaming\npm\node_modules\mocha\lib\runner.js:284:14)
-      at Immediate._onImmediate (C:\Users\Rob\AppData\Roaming\npm\node_modules\mocha\lib\runner.js:320:5)
-
-  3) Functionality >>>>>>>>>> #3 [5pt] basic type query result in a cname [1pts] return should have the original url:
-     AssertionError: expected undefined not to be undefined
-      at Context.<anonymous> (C:\Users\Rob\OneDrive\test\New folder\test.js:265:31)
-      at callFn (C:\Users\Rob\AppData\Roaming\npm\node_modules\mocha\lib\runnable.js:315:21)
-      at Test.Runnable.run (C:\Users\Rob\AppData\Roaming\npm\node_modules\mocha\lib\runnable.js:308:7)
-      at Runner.runTest (C:\Users\Rob\AppData\Roaming\npm\node_modules\mocha\lib\runner.js:422:10)
-      at C:\Users\Rob\AppData\Roaming\npm\node_modules\mocha\lib\runner.js:533:12
-      at next (C:\Users\Rob\AppData\Roaming\npm\node_modules\mocha\lib\runner.js:342:14)
-      at C:\Users\Rob\AppData\Roaming\npm\node_modules\mocha\lib\runner.js:352:7
-      at next (C:\Users\Rob\AppData\Roaming\npm\node_modules\mocha\lib\runner.js:284:14)
-      at Immediate._onImmediate (C:\Users\Rob\AppData\Roaming\npm\node_modules\mocha\lib\runner.js:320:5)
-
-  4) Functionality >>>>>>>>>> #3 [5pt] basic type query result in a cname [0pts] return should have the TTL field:
-     AssertionError: expected undefined not to be undefined
-      at Context.<anonymous> (C:\Users\Rob\OneDrive\test\New folder\test.js:271:31)
-      at callFn (C:\Users\Rob\AppData\Roaming\npm\node_modules\mocha\lib\runnable.js:315:21)
-      at Test.Runnable.run (C:\Users\Rob\AppData\Roaming\npm\node_modules\mocha\lib\runnable.js:308:7)
-      at Runner.runTest (C:\Users\Rob\AppData\Roaming\npm\node_modules\mocha\lib\runner.js:422:10)
-      at C:\Users\Rob\AppData\Roaming\npm\node_modules\mocha\lib\runner.js:533:12
-      at next (C:\Users\Rob\AppData\Roaming\npm\node_modules\mocha\lib\runner.js:342:14)
-      at C:\Users\Rob\AppData\Roaming\npm\node_modules\mocha\lib\runner.js:352:7
-      at next (C:\Users\Rob\AppData\Roaming\npm\node_modules\mocha\lib\runner.js:284:14)
-      at Immediate._onImmediate (C:\Users\Rob\AppData\Roaming\npm\node_modules\mocha\lib\runner.js:320:5)
-
-  5) Functionality >>>>>>>>>> #3 [5pt] basic type query result in a cname [0pts] return should have the TTL > 0:
-     AssertionError: expected undefined not to be undefined
-      at Context.<anonymous> (C:\Users\Rob\OneDrive\test\New folder\test.js:277:31)
-      at callFn (C:\Users\Rob\AppData\Roaming\npm\node_modules\mocha\lib\runnable.js:315:21)
-      at Test.Runnable.run (C:\Users\Rob\AppData\Roaming\npm\node_modules\mocha\lib\runnable.js:308:7)
-      at Runner.runTest (C:\Users\Rob\AppData\Roaming\npm\node_modules\mocha\lib\runner.js:422:10)
-      at C:\Users\Rob\AppData\Roaming\npm\node_modules\mocha\lib\runner.js:533:12
-      at next (C:\Users\Rob\AppData\Roaming\npm\node_modules\mocha\lib\runner.js:342:14)
-      at C:\Users\Rob\AppData\Roaming\npm\node_modules\mocha\lib\runner.js:352:7
-      at next (C:\Users\Rob\AppData\Roaming\npm\node_modules\mocha\lib\runner.js:284:14)
-      at Immediate._onImmediate (C:\Users\Rob\AppData\Roaming\npm\node_modules\mocha\lib\runner.js:320:5)
-
-  6) Functionality >>>>>>>>>> #3 [5pt] basic type query result in a cname [4pts] return should have the expected ip address:
-     AssertionError: expected undefined not to be undefined
-      at Context.<anonymous> (C:\Users\Rob\OneDrive\test\New folder\test.js:285:31)
-      at callFn (C:\Users\Rob\AppData\Roaming\npm\node_modules\mocha\lib\runnable.js:315:21)
-      at Test.Runnable.run (C:\Users\Rob\AppData\Roaming\npm\node_modules\mocha\lib\runnable.js:308:7)
-      at Runner.runTest (C:\Users\Rob\AppData\Roaming\npm\node_modules\mocha\lib\runner.js:422:10)
-      at C:\Users\Rob\AppData\Roaming\npm\node_modules\mocha\lib\runner.js:533:12
-      at next (C:\Users\Rob\AppData\Roaming\npm\node_modules\mocha\lib\runner.js:342:14)
-      at C:\Users\Rob\AppData\Roaming\npm\node_modules\mocha\lib\runner.js:352:7
-      at next (C:\Users\Rob\AppData\Roaming\npm\node_modules\mocha\lib\runner.js:284:14)
-      at Immediate._onImmediate (C:\Users\Rob\AppData\Roaming\npm\node_modules\mocha\lib\runner.js:320:5)
-
-  7) Error Handling >>>>>>>>>> #1 [/2] Timeout - nameserver doesnt respond "before all" hook:
-     Error: done() called multiple times
-      at Hook.Runnable (C:\Users\Rob\AppData\Roaming\npm\node_modules\mocha\lib\runnable.js:54:17)
-      at new Hook (C:\Users\Rob\AppData\Roaming\npm\node_modules\mocha\lib\hook.js:22:12)
-      at Suite.beforeAll (C:\Users\Rob\AppData\Roaming\npm\node_modules\mocha\lib\suite.js:197:14)
-      at before (C:\Users\Rob\AppData\Roaming\npm\node_modules\mocha\lib\interfaces\common.js:32:17)
-      at Suite.<anonymous> (C:\Users\Rob\OneDrive\test\New folder\test.js:789:9)
-      at context.describe.context.context (C:\Users\Rob\AppData\Roaming\npm\node_modules\mocha\lib\interfaces\bdd.js:47:10)
-      at Suite.<anonymous> (C:\Users\Rob\OneDrive\test\New folder\test.js:781:2)
-      at context.describe.context.context (C:\Users\Rob\AppData\Roaming\npm\node_modules\mocha\lib\interfaces\bdd.js:47:10)
-      at Object.<anonymous> (C:\Users\Rob\OneDrive\test\New folder\test.js:777:1)
-      at require (internal/module.js:12:17)
-      at C:\Users\Rob\AppData\Roaming\npm\node_modules\mocha\lib\mocha.js:219:27
-      at Array.forEach (native)
-      at Mocha.loadFiles (C:\Users\Rob\AppData\Roaming\npm\node_modules\mocha\lib\mocha.js:216:14)
-      at Mocha.run (C:\Users\Rob\AppData\Roaming\npm\node_modules\mocha\lib\mocha.js:468:10)
-      at Object.<anonymous> (C:\Users\Rob\AppData\Roaming\npm\node_modules\mocha\bin\_mocha:403:18)
-      at node.js:968:3
-
-  8) Error Handling >>>>>>>>>> #1 [/2] Timeout - nameserver doesnt respond [0pts] return shouldhave 3 items:
-     TypeError: Cannot read property 'length' of undefined
-      at Context.<anonymous> (C:\Users\Rob\OneDrive\test\New folder\test.js:826:25)
-      at callFn (C:\Users\Rob\AppData\Roaming\npm\node_modules\mocha\lib\runnable.js:315:21)
-      at Test.Runnable.run (C:\Users\Rob\AppData\Roaming\npm\node_modules\mocha\lib\runnable.js:308:7)
-      at Runner.runTest (C:\Users\Rob\AppData\Roaming\npm\node_modules\mocha\lib\runner.js:422:10)
-      at C:\Users\Rob\AppData\Roaming\npm\node_modules\mocha\lib\runner.js:533:12
-      at next (C:\Users\Rob\AppData\Roaming\npm\node_modules\mocha\lib\runner.js:342:14)
-      at C:\Users\Rob\AppData\Roaming\npm\node_modules\mocha\lib\runner.js:352:7
-      at next (C:\Users\Rob\AppData\Roaming\npm\node_modules\mocha\lib\runner.js:284:14)
-      at Immediate._onImmediate (C:\Users\Rob\AppData\Roaming\npm\node_modules\mocha\lib\runner.js:320:5)
-
-  9) Error Handling >>>>>>>>>> #1 [/2] Timeout - nameserver doesnt respond [0pts] return should have the original url:
-     TypeError: Cannot read property '0' of undefined
-      at Context.<anonymous> (C:\Users\Rob\OneDrive\test\New folder\test.js:831:20)
-      at callFn (C:\Users\Rob\AppData\Roaming\npm\node_modules\mocha\lib\runnable.js:315:21)
-      at Test.Runnable.run (C:\Users\Rob\AppData\Roaming\npm\node_modules\mocha\lib\runnable.js:308:7)
-      at Runner.runTest (C:\Users\Rob\AppData\Roaming\npm\node_modules\mocha\lib\runner.js:422:10)
-      at C:\Users\Rob\AppData\Roaming\npm\node_modules\mocha\lib\runner.js:533:12
-      at next (C:\Users\Rob\AppData\Roaming\npm\node_modules\mocha\lib\runner.js:342:14)
-      at C:\Users\Rob\AppData\Roaming\npm\node_modules\mocha\lib\runner.js:352:7
-      at next (C:\Users\Rob\AppData\Roaming\npm\node_modules\mocha\lib\runner.js:284:14)
-      at Immediate._onImmediate (C:\Users\Rob\AppData\Roaming\npm\node_modules\mocha\lib\runner.js:320:5)
-
-  10) Error Handling >>>>>>>>>> #1 [/2] Timeout - nameserver doesnt respond [1pts] return should have the TTL field:
-     TypeError: Cannot read property '1' of undefined
-      at Context.<anonymous> (C:\Users\Rob\OneDrive\test\New folder\test.js:835:20)
-      at callFn (C:\Users\Rob\AppData\Roaming\npm\node_modules\mocha\lib\runnable.js:315:21)
-      at Test.Runnable.run (C:\Users\Rob\AppData\Roaming\npm\node_modules\mocha\lib\runnable.js:308:7)
-      at Runner.runTest (C:\Users\Rob\AppData\Roaming\npm\node_modules\mocha\lib\runner.js:422:10)
-      at C:\Users\Rob\AppData\Roaming\npm\node_modules\mocha\lib\runner.js:533:12
-      at next (C:\Users\Rob\AppData\Roaming\npm\node_modules\mocha\lib\runner.js:342:14)
-      at C:\Users\Rob\AppData\Roaming\npm\node_modules\mocha\lib\runner.js:352:7
-      at next (C:\Users\Rob\AppData\Roaming\npm\node_modules\mocha\lib\runner.js:284:14)
-      at Immediate._onImmediate (C:\Users\Rob\AppData\Roaming\npm\node_modules\mocha\lib\runner.js:320:5)
-
-  11) Error Handling >>>>>>>>>> #1 [/2] Timeout - nameserver doesnt respond [1pts] return should have the expected ip address:
-     TypeError: Cannot read property '2' of undefined
-      at Context.<anonymous> (C:\Users\Rob\OneDrive\test\New folder\test.js:840:20)
-      at callFn (C:\Users\Rob\AppData\Roaming\npm\node_modules\mocha\lib\runnable.js:315:21)
-      at Test.Runnable.run (C:\Users\Rob\AppData\Roaming\npm\node_modules\mocha\lib\runnable.js:308:7)
-      at Runner.runTest (C:\Users\Rob\AppData\Roaming\npm\node_modules\mocha\lib\runner.js:422:10)
-      at C:\Users\Rob\AppData\Roaming\npm\node_modules\mocha\lib\runner.js:533:12
-      at next (C:\Users\Rob\AppData\Roaming\npm\node_modules\mocha\lib\runner.js:342:14)
-      at C:\Users\Rob\AppData\Roaming\npm\node_modules\mocha\lib\runner.js:352:7
-      at next (C:\Users\Rob\AppData\Roaming\npm\node_modules\mocha\lib\runner.js:284:14)
-      at Immediate._onImmediate (C:\Users\Rob\AppData\Roaming\npm\node_modules\mocha\lib\runner.js:320:5)
-
-  12) Error Handling >>>>>>>>>> #2 [/2] Too many queries "before all" hook:
-     Error: done() called multiple times
-      at Hook.Runnable (C:\Users\Rob\AppData\Roaming\npm\node_modules\mocha\lib\runnable.js:54:17)
-      at new Hook (C:\Users\Rob\AppData\Roaming\npm\node_modules\mocha\lib\hook.js:22:12)
-      at Suite.beforeAll (C:\Users\Rob\AppData\Roaming\npm\node_modules\mocha\lib\suite.js:197:14)
-      at before (C:\Users\Rob\AppData\Roaming\npm\node_modules\mocha\lib\interfaces\common.js:32:17)
-      at Suite.<anonymous> (C:\Users\Rob\OneDrive\test\New folder\test.js:867:9)
-      at context.describe.context.context (C:\Users\Rob\AppData\Roaming\npm\node_modules\mocha\lib\interfaces\bdd.js:47:10)
-      at Suite.<anonymous> (C:\Users\Rob\OneDrive\test\New folder\test.js:859:2)
-      at context.describe.context.context (C:\Users\Rob\AppData\Roaming\npm\node_modules\mocha\lib\interfaces\bdd.js:47:10)
-      at Object.<anonymous> (C:\Users\Rob\OneDrive\test\New folder\test.js:777:1)
-      at require (internal/module.js:12:17)
-      at C:\Users\Rob\AppData\Roaming\npm\node_modules\mocha\lib\mocha.js:219:27
-      at Array.forEach (native)
-      at Mocha.loadFiles (C:\Users\Rob\AppData\Roaming\npm\node_modules\mocha\lib\mocha.js:216:14)
-      at Mocha.run (C:\Users\Rob\AppData\Roaming\npm\node_modules\mocha\lib\mocha.js:468:10)
-      at Object.<anonymous> (C:\Users\Rob\AppData\Roaming\npm\node_modules\mocha\bin\_mocha:403:18)
-      at node.js:968:3
-
-  13) Error Handling >>>>>>>>>> #2 [/2] Too many queries [0pts] return shouldhave 3 items:
-     TypeError: Cannot read property 'length' of undefined
-      at Context.<anonymous> (C:\Users\Rob\OneDrive\test\New folder\test.js:903:25)
-      at callFn (C:\Users\Rob\AppData\Roaming\npm\node_modules\mocha\lib\runnable.js:315:21)
-      at Test.Runnable.run (C:\Users\Rob\AppData\Roaming\npm\node_modules\mocha\lib\runnable.js:308:7)
-      at Runner.runTest (C:\Users\Rob\AppData\Roaming\npm\node_modules\mocha\lib\runner.js:422:10)
-      at C:\Users\Rob\AppData\Roaming\npm\node_modules\mocha\lib\runner.js:533:12
-      at next (C:\Users\Rob\AppData\Roaming\npm\node_modules\mocha\lib\runner.js:342:14)
-      at C:\Users\Rob\AppData\Roaming\npm\node_modules\mocha\lib\runner.js:352:7
-      at next (C:\Users\Rob\AppData\Roaming\npm\node_modules\mocha\lib\runner.js:284:14)
-      at Immediate._onImmediate (C:\Users\Rob\AppData\Roaming\npm\node_modules\mocha\lib\runner.js:320:5)
-
-  14) Error Handling >>>>>>>>>> #2 [/2] Too many queries [0pts] return should have the original url:
-     TypeError: Cannot read property '0' of undefined
-      at Context.<anonymous> (C:\Users\Rob\OneDrive\test\New folder\test.js:908:20)
-      at callFn (C:\Users\Rob\AppData\Roaming\npm\node_modules\mocha\lib\runnable.js:315:21)
-      at Test.Runnable.run (C:\Users\Rob\AppData\Roaming\npm\node_modules\mocha\lib\runnable.js:308:7)
-      at Runner.runTest (C:\Users\Rob\AppData\Roaming\npm\node_modules\mocha\lib\runner.js:422:10)
-      at C:\Users\Rob\AppData\Roaming\npm\node_modules\mocha\lib\runner.js:533:12
-      at next (C:\Users\Rob\AppData\Roaming\npm\node_modules\mocha\lib\runner.js:342:14)
-      at C:\Users\Rob\AppData\Roaming\npm\node_modules\mocha\lib\runner.js:352:7
-      at next (C:\Users\Rob\AppData\Roaming\npm\node_modules\mocha\lib\runner.js:284:14)
-      at Immediate._onImmediate (C:\Users\Rob\AppData\Roaming\npm\node_modules\mocha\lib\runner.js:320:5)
-
-  15) Error Handling >>>>>>>>>> #2 [/2] Too many queries [1pts] return should have the TTL field:
-     TypeError: Cannot read property '1' of undefined
-      at Context.<anonymous> (C:\Users\Rob\OneDrive\test\New folder\test.js:912:20)
-      at callFn (C:\Users\Rob\AppData\Roaming\npm\node_modules\mocha\lib\runnable.js:315:21)
-      at Test.Runnable.run (C:\Users\Rob\AppData\Roaming\npm\node_modules\mocha\lib\runnable.js:308:7)
-      at Runner.runTest (C:\Users\Rob\AppData\Roaming\npm\node_modules\mocha\lib\runner.js:422:10)
-      at C:\Users\Rob\AppData\Roaming\npm\node_modules\mocha\lib\runner.js:533:12
-      at next (C:\Users\Rob\AppData\Roaming\npm\node_modules\mocha\lib\runner.js:342:14)
-      at C:\Users\Rob\AppData\Roaming\npm\node_modules\mocha\lib\runner.js:352:7
-      at next (C:\Users\Rob\AppData\Roaming\npm\node_modules\mocha\lib\runner.js:284:14)
-      at Immediate._onImmediate (C:\Users\Rob\AppData\Roaming\npm\node_modules\mocha\lib\runner.js:320:5)
-
-  16) Error Handling >>>>>>>>>> #2 [/2] Too many queries [1pts] return should have the expected ip address:
-     TypeError: Cannot read property '2' of undefined
-      at Context.<anonymous> (C:\Users\Rob\OneDrive\test\New folder\test.js:917:20)
-      at callFn (C:\Users\Rob\AppData\Roaming\npm\node_modules\mocha\lib\runnable.js:315:21)
-      at Test.Runnable.run (C:\Users\Rob\AppData\Roaming\npm\node_modules\mocha\lib\runnable.js:308:7)
-      at Runner.runTest (C:\Users\Rob\AppData\Roaming\npm\node_modules\mocha\lib\runner.js:422:10)
-      at C:\Users\Rob\AppData\Roaming\npm\node_modules\mocha\lib\runner.js:533:12
-      at next (C:\Users\Rob\AppData\Roaming\npm\node_modules\mocha\lib\runner.js:342:14)
-      at C:\Users\Rob\AppData\Roaming\npm\node_modules\mocha\lib\runner.js:352:7
-      at next (C:\Users\Rob\AppData\Roaming\npm\node_modules\mocha\lib\runner.js:284:14)
-      at Immediate._onImmediate (C:\Users\Rob\AppData\Roaming\npm\node_modules\mocha\lib\runner.js:320:5)
-
-  17) Error Handling >>>>>>>>>> #4a [/1] Other types of errors [0pts] return should have the TTL field:
-
-      AssertionError: expected '-1' to equal '-4'
-      + expected - actual
-
-      --1
-      +-4
-      
-      at Context.<anonymous> (C:\Users\Rob\OneDrive\test\New folder\test.js:1071:28)
-      at callFn (C:\Users\Rob\AppData\Roaming\npm\node_modules\mocha\lib\runnable.js:315:21)
-      at Test.Runnable.run (C:\Users\Rob\AppData\Roaming\npm\node_modules\mocha\lib\runnable.js:308:7)
-      at Runner.runTest (C:\Users\Rob\AppData\Roaming\npm\node_modules\mocha\lib\runner.js:422:10)
-      at C:\Users\Rob\AppData\Roaming\npm\node_modules\mocha\lib\runner.js:533:12
-      at next (C:\Users\Rob\AppData\Roaming\npm\node_modules\mocha\lib\runner.js:342:14)
-      at C:\Users\Rob\AppData\Roaming\npm\node_modules\mocha\lib\runner.js:352:7
-      at next (C:\Users\Rob\AppData\Roaming\npm\node_modules\mocha\lib\runner.js:284:14)
-      at Immediate._onImmediate (C:\Users\Rob\AppData\Roaming\npm\node_modules\mocha\lib\runner.js:320:5)
-
-  18) Error Handling >>>>>>>>>> #4b [/1] Other types of errors "before all" hook:
-     Error: done() called multiple times
-      at Hook.Runnable (C:\Users\Rob\AppData\Roaming\npm\node_modules\mocha\lib\runnable.js:54:17)
-      at new Hook (C:\Users\Rob\AppData\Roaming\npm\node_modules\mocha\lib\hook.js:22:12)
-      at Suite.beforeAll (C:\Users\Rob\AppData\Roaming\npm\node_modules\mocha\lib\suite.js:197:14)
-      at before (C:\Users\Rob\AppData\Roaming\npm\node_modules\mocha\lib\interfaces\common.js:32:17)
-      at Suite.<anonymous> (C:\Users\Rob\OneDrive\test\New folder\test.js:1104:9)
-      at context.describe.context.context (C:\Users\Rob\AppData\Roaming\npm\node_modules\mocha\lib\interfaces\bdd.js:47:10)
-      at Suite.<anonymous> (C:\Users\Rob\OneDrive\test\New folder\test.js:1096:2)
-      at context.describe.context.context (C:\Users\Rob\AppData\Roaming\npm\node_modules\mocha\lib\interfaces\bdd.js:47:10)
-      at Object.<anonymous> (C:\Users\Rob\OneDrive\test\New folder\test.js:777:1)
-      at require (internal/module.js:12:17)
-      at C:\Users\Rob\AppData\Roaming\npm\node_modules\mocha\lib\mocha.js:219:27
-      at Array.forEach (native)
-      at Mocha.loadFiles (C:\Users\Rob\AppData\Roaming\npm\node_modules\mocha\lib\mocha.js:216:14)
-      at Mocha.run (C:\Users\Rob\AppData\Roaming\npm\node_modules\mocha\lib\mocha.js:468:10)
-      at Object.<anonymous> (C:\Users\Rob\AppData\Roaming\npm\node_modules\mocha\bin\_mocha:403:18)
-      at node.js:968:3
-
-  19) Error Handling >>>>>>>>>> #4b [/1] Other types of errors [0pts] return shouldhave 3 items:
-     AssertionError: expected undefined not to be undefined
-      at Context.<anonymous> (C:\Users\Rob\OneDrive\test\New folder\test.js:1140:31)
-      at callFn (C:\Users\Rob\AppData\Roaming\npm\node_modules\mocha\lib\runnable.js:315:21)
-      at Test.Runnable.run (C:\Users\Rob\AppData\Roaming\npm\node_modules\mocha\lib\runnable.js:308:7)
-      at Runner.runTest (C:\Users\Rob\AppData\Roaming\npm\node_modules\mocha\lib\runner.js:422:10)
-      at C:\Users\Rob\AppData\Roaming\npm\node_modules\mocha\lib\runner.js:533:12
-      at next (C:\Users\Rob\AppData\Roaming\npm\node_modules\mocha\lib\runner.js:342:14)
-      at C:\Users\Rob\AppData\Roaming\npm\node_modules\mocha\lib\runner.js:352:7
-      at next (C:\Users\Rob\AppData\Roaming\npm\node_modules\mocha\lib\runner.js:284:14)
-      at Immediate._onImmediate (C:\Users\Rob\AppData\Roaming\npm\node_modules\mocha\lib\runner.js:320:5)
-
-  20) Error Handling >>>>>>>>>> #4b [/1] Other types of errors [1pts] return should have the original url:
-     TypeError: Cannot read property '0' of undefined
-      at Context.<anonymous> (C:\Users\Rob\OneDrive\test\New folder\test.js:1147:47)
-      at callFn (C:\Users\Rob\AppData\Roaming\npm\node_modules\mocha\lib\runnable.js:315:21)
-      at Test.Runnable.run (C:\Users\Rob\AppData\Roaming\npm\node_modules\mocha\lib\runnable.js:308:7)
-      at Runner.runTest (C:\Users\Rob\AppData\Roaming\npm\node_modules\mocha\lib\runner.js:422:10)
-      at C:\Users\Rob\AppData\Roaming\npm\node_modules\mocha\lib\runner.js:533:12
-      at next (C:\Users\Rob\AppData\Roaming\npm\node_modules\mocha\lib\runner.js:342:14)
-      at C:\Users\Rob\AppData\Roaming\npm\node_modules\mocha\lib\runner.js:352:7
-      at next (C:\Users\Rob\AppData\Roaming\npm\node_modules\mocha\lib\runner.js:284:14)
-      at Immediate._onImmediate (C:\Users\Rob\AppData\Roaming\npm\node_modules\mocha\lib\runner.js:320:5)
-
-  21) Error Handling >>>>>>>>>> #4b [/1] Other types of errors [0pts] return should have the TTL field:
-     TypeError: Cannot read property '1' of undefined
-      at Context.<anonymous> (C:\Users\Rob\OneDrive\test\New folder\test.js:1151:46)
-      at callFn (C:\Users\Rob\AppData\Roaming\npm\node_modules\mocha\lib\runnable.js:315:21)
-      at Test.Runnable.run (C:\Users\Rob\AppData\Roaming\npm\node_modules\mocha\lib\runnable.js:308:7)
-      at Runner.runTest (C:\Users\Rob\AppData\Roaming\npm\node_modules\mocha\lib\runner.js:422:10)
-      at C:\Users\Rob\AppData\Roaming\npm\node_modules\mocha\lib\runner.js:533:12
-      at next (C:\Users\Rob\AppData\Roaming\npm\node_modules\mocha\lib\runner.js:342:14)
-      at C:\Users\Rob\AppData\Roaming\npm\node_modules\mocha\lib\runner.js:352:7
-      at next (C:\Users\Rob\AppData\Roaming\npm\node_modules\mocha\lib\runner.js:284:14)
-      at Immediate._onImmediate (C:\Users\Rob\AppData\Roaming\npm\node_modules\mocha\lib\runner.js:320:5)
-
-  22) Error Handling >>>>>>>>>> #4b [/1] Other types of errors [1pts] return should have the expected ip address:
-     TypeError: Cannot read property '2' of undefined
-      at Context.<anonymous> (C:\Users\Rob\OneDrive\test\New folder\test.js:1156:51)
-      at callFn (C:\Users\Rob\AppData\Roaming\npm\node_modules\mocha\lib\runnable.js:315:21)
-      at Test.Runnable.run (C:\Users\Rob\AppData\Roaming\npm\node_modules\mocha\lib\runnable.js:308:7)
-      at Runner.runTest (C:\Users\Rob\AppData\Roaming\npm\node_modules\mocha\lib\runner.js:422:10)
-      at C:\Users\Rob\AppData\Roaming\npm\node_modules\mocha\lib\runner.js:533:12
-      at next (C:\Users\Rob\AppData\Roaming\npm\node_modules\mocha\lib\runner.js:342:14)
-      at C:\Users\Rob\AppData\Roaming\npm\node_modules\mocha\lib\runner.js:352:7
-      at next (C:\Users\Rob\AppData\Roaming\npm\node_modules\mocha\lib\runner.js:284:14)
-      at Immediate._onImmediate (C:\Users\Rob\AppData\Roaming\npm\node_modules\mocha\lib\runner.js:320:5)
-
-  23) Tracing >>>>>>>>>> #4 [/4] Prints the counts for the Ans, NS, and Additional Info includes TTL [1pts] Prints the counts for the Answers:
-     AssertionError: expected undefined not to be undefined
-      at Context.<anonymous> (C:\Users\Rob\OneDrive\test\New folder\test.js:1503:31)
-      at callFn (C:\Users\Rob\AppData\Roaming\npm\node_modules\mocha\lib\runnable.js:315:21)
-      at Test.Runnable.run (C:\Users\Rob\AppData\Roaming\npm\node_modules\mocha\lib\runnable.js:308:7)
-      at Runner.runTest (C:\Users\Rob\AppData\Roaming\npm\node_modules\mocha\lib\runner.js:422:10)
-      at C:\Users\Rob\AppData\Roaming\npm\node_modules\mocha\lib\runner.js:533:12
-      at next (C:\Users\Rob\AppData\Roaming\npm\node_modules\mocha\lib\runner.js:342:14)
-      at C:\Users\Rob\AppData\Roaming\npm\node_modules\mocha\lib\runner.js:352:7
-      at next (C:\Users\Rob\AppData\Roaming\npm\node_modules\mocha\lib\runner.js:284:14)
-      at Immediate._onImmediate (C:\Users\Rob\AppData\Roaming\npm\node_modules\mocha\lib\runner.js:320:5)
-
-  24) Tracing >>>>>>>>>> #4 [/4] Prints the counts for the Ans, NS, and Additional Info includes TTL [1pts] Prints the counts for the Nameservers:
-     AssertionError: expected undefined not to be undefined
-      at Context.<anonymous> (C:\Users\Rob\OneDrive\test\New folder\test.js:1521:30)
-      at callFn (C:\Users\Rob\AppData\Roaming\npm\node_modules\mocha\lib\runnable.js:315:21)
-      at Test.Runnable.run (C:\Users\Rob\AppData\Roaming\npm\node_modules\mocha\lib\runnable.js:308:7)
-      at Runner.runTest (C:\Users\Rob\AppData\Roaming\npm\node_modules\mocha\lib\runner.js:422:10)
-      at C:\Users\Rob\AppData\Roaming\npm\node_modules\mocha\lib\runner.js:533:12
-      at next (C:\Users\Rob\AppData\Roaming\npm\node_modules\mocha\lib\runner.js:342:14)
-      at C:\Users\Rob\AppData\Roaming\npm\node_modules\mocha\lib\runner.js:352:7
-      at next (C:\Users\Rob\AppData\Roaming\npm\node_modules\mocha\lib\runner.js:284:14)
-      at Immediate._onImmediate (C:\Users\Rob\AppData\Roaming\npm\node_modules\mocha\lib\runner.js:320:5)
-
-  25) Tracing >>>>>>>>>> #4 [/4] Prints the counts for the Ans, NS, and Additional Info includes TTL [1pts] Prints the counts for the Additional Information:
-     AssertionError: expected undefined not to be undefined
-      at Context.<anonymous> (C:\Users\Rob\OneDrive\test\New folder\test.js:1540:31)
-      at callFn (C:\Users\Rob\AppData\Roaming\npm\node_modules\mocha\lib\runnable.js:315:21)
-      at Test.Runnable.run (C:\Users\Rob\AppData\Roaming\npm\node_modules\mocha\lib\runnable.js:308:7)
-      at Runner.runTest (C:\Users\Rob\AppData\Roaming\npm\node_modules\mocha\lib\runner.js:422:10)
-      at C:\Users\Rob\AppData\Roaming\npm\node_modules\mocha\lib\runner.js:533:12
-      at next (C:\Users\Rob\AppData\Roaming\npm\node_modules\mocha\lib\runner.js:342:14)
-      at C:\Users\Rob\AppData\Roaming\npm\node_modules\mocha\lib\runner.js:352:7
-      at next (C:\Users\Rob\AppData\Roaming\npm\node_modules\mocha\lib\runner.js:284:14)
-      at Immediate._onImmediate (C:\Users\Rob\AppData\Roaming\npm\node_modules\mocha\lib\runner.js:320:5)
-
-
+  60 passing (1m)
 
